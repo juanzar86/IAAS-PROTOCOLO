@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SUIT-IAAS · Protocolo de prevención neonatal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #12232c;
+            --muted: #5b6b70;
+            --paper: #eef3f2;
+            --surface: #ffffff;
+            --line: #d7e0dd;
+            --teal: #0d6e63;
+            --teal-dark: #094f47;
+            --clinica: #29527a;
+            --clinica-tint: #eaf1f8;
+            --apartado: #93601f;
+            --apartado-tint: #f8f1e6;
+            --ok: #1f7a4d;
+            --warn: #a5680c;
+            --low: #b8412f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "IBM Plex Sans", Arial, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, p {
+            margin: 0;
+        }
+
+        h1, h2, h3 {
+            font-family: "IBM Plex Serif", Georgia, serif;
+            font-weight: 600;
+            line-height: 1.18;
+        }
+
+        button, input, select {
+            font: inherit;
+            color: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--teal);
+            outline-offset: 2px;
+        }
+
+        .mono {
+            font-family: "IBM Plex Mono", monospace;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .page {
+            width: min(1280px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        /* ---------- header / stepper nav ---------- */
+        .site-header {
+            border-bottom: 1px solid var(--line);
+            background: var(--surface);
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 0 14px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand svg {
+            flex-shrink: 0;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-family: "IBM Plex Serif", serif;
+            font-size: 1.15rem;
+            letter-spacing: 0.01em;
+        }
+
+        .brand-text span {
+            display: block;
+            font-size: 0.74rem;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .instrument-tag {
+            font-size: 0.74rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            padding: 5px 9px;
+        }
+
+        .stepper {
+            display: flex;
+            gap: 2px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border: 0;
+            border-bottom: 3px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            padding: 12px 16px;
+            white-space: nowrap;
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.94rem;
+        }
+
+        .tab .num {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.78rem;
+            color: inherit;
+            opacity: 0.7;
+        }
+
+        .tab:hover {
+            color: var(--ink);
+        }
+
+        .tab.active {
+            color: var(--teal-dark);
+            border-bottom-color: var(--teal);
+        }
+
+        /* ---------- vitals divider (signature element) ---------- */
+        .vitals-divider {
+            display: block;
+            width: 100%;
+            height: 34px;
+            color: var(--teal);
+            opacity: 0.55;
+        }
+
+        .vitals-divider path {
+            stroke-dasharray: 340;
+            stroke-dashoffset: 340;
+            animation: draw 1.6s ease-out forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .vitals-divider path {
+                animation: none;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* ---------- sections ---------- */
+        .section {
+            display: none;
+            padding: 36px 0 56px;
+        }
+
+        .section.active {
+            display: block;
+            animation: rise 0.4s ease;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .section.active {
+                animation: none;
+            }
+        }
+
+        /* ---------- cover ---------- */
+        .cover-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) 380px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .eyebrow {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--teal-dark);
+            margin-bottom: 14px;
+        }
+
+        .cover-copy h1 {
+            font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+            margin-bottom: 16px;
+        }
+
+        .cover-copy > p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: 46ch;
+            margin-bottom: 26px;
+        }
+
+        .step-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .step-btn {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 14px;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: 4px;
+            padding: 13px 15px;
+            cursor: pointer;
+        }
+
+        .step-btn:hover {
+            border-color: var(--teal);
+        }
+
+        .step-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1.5px solid var(--teal);
+            color: var(--teal-dark);
+            display: grid;
+            place-items: center;
+            font-family: "IBM Plex Mono", monospace;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .step-btn strong {
+            display: block;
+            font-size: 0.98rem;
+        }
+
+        .step-btn span {
+            display: block;
+            font-size: 0.84rem;
+            color: var(--muted);
+        }
+
+        .cover-media {
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .cover-media img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+        }
+
+        .cover-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--line);
+        }
+
+        .cover-stats div {
+            padding: 14px 10px;
+            text-align: center;
+            border-left: 1px solid var(--line);
+        }
+
+        .cover-stats div:first-child {
+            border-left: 0;
+        }
+
+        .cover-stats b {
+            display: block;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 1.25rem;
+            color: var(--teal-dark);
+        }
+
+        .cover-stats span {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ---------- shared panel ---------- */
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            background: var(--surface);
+        }
+
+        .panel-head {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 22px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .panel-head h2 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .panel-body {
+            padding: 22px;
+        }
+
+        .section-kicker {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* ---------- score chip ---------- */
+        .score {
+            font-family: "IBM Plex Mono", monospace;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            border-radius: 3px;
+            border: 1px solid var(--line);
+            background: var(--paper);
+            white-space: nowrap;
+        }
+
+        .score.alto {
+            color: var(--ok);
+            border-color: #a9d9bd;
+            background: #eef8f1;
+        }
+
+        .score.medio {
+            color: var(--warn);
+            border-color: #ecd193;
+            background: #fbf3e2;
+        }
+
+        .score.bajo {
+            color: var(--low);
+            border-color: #ecb6a9;
+            background: #fbeae6;
+        }
+
+        /* ---------- demographic fields ---------- */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px dashed var(--line);
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .field input, .field select {
+            min-height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            padding: 8px 10px;
+            background: var(--surface);
+        }
+
+        /* ---------- quiz ---------- */
+        .quiz-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .question {
+            display: grid;
+            grid-template-columns: 52px 1fr;
+            gap: 14px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 15px 16px;
+        }
+
+        .q-tag {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.78rem;
+            color: var(--teal-dark);
+            padding-top: 2px;
+        }
+
+        .question h3 {
+            font-size: 0.98rem;
+            font-weight: 500;
+            font-family: "IBM Plex Sans", sans-serif;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            display: grid;
+            gap: 7px;
+        }
+
+        .option {
+            display: grid;
+            grid-template-columns: 18px 1fr;
+            gap: 9px;
+            align-items: start;
+            padding: 9px 11px;
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            cursor: pointer;
+            line-height: 1.4;
+            font-size: 0.92rem;
+        }
+
+        .option:hover {
+            border-color: var(--teal);
+        }
+
+        .option:has(input:checked) {
+            border-color: var(--teal);
+            background: #eef8f6;
+        }
+
+        .option input {
+            margin-top: 3px;
+        }
+
+        /* ---------- buttons ---------- */
+        .form-actions, .result-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-top: 22px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 42px;
+            padding: 0 16px;
+            border-radius: 3px;
+            border: 1px solid var(--teal);
+            background: var(--surface);
+            color: var(--teal-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn.primary {
+            background: var(--teal);
+            color: #ffffff;
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        /* ---------- modulos layout ---------- */
+        .layout {
+            display: grid;
+            grid-template-columns: 350px minmax(0, 1fr);
+            gap: 16px;
+            align-items: start;
+            margin-top: 20px;
+        }
+
+        .sidebar, .viewer {
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            background: var(--surface);
+            overflow: hidden;
+        }
+
+        .list-head {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            background: var(--clinica-tint);
+        }
+
+        .list-head h3 {
+            font-size: 0.95rem;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-weight: 700;
+        }
+
+        .list-head p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .card-list {
+            display: grid;
+            gap: 1px;
+            background: var(--line);
+            max-height: 640px;
+            overflow-y: auto;
+        }
+
+        .card-item {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 12px;
+            width: 100%;
+            padding: 12px;
+            border: 0;
+            background: var(--surface);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .card-item:hover, .card-item.active {
+            background: #f2f8f7;
+        }
+
+        .card-item.active {
+            box-shadow: inset 3px 0 0 var(--teal);
+        }
+
+        .thumb {
+            width: 60px;
+            height: 58px;
+            border-radius: 3px;
+            object-fit: cover;
+            background: var(--clinica);
+        }
+
+        .thumb-fallback {
+            display: grid;
+            place-items: center;
+            font-family: "IBM Plex Mono", monospace;
+            font-weight: 600;
+            color: #ffffff;
+            background: var(--clinica);
+        }
+
+        .card-item h4 {
+            font-size: 0.92rem;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .card-item p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.3;
+        }
+
+        .viewer-head {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--line);
+            background: var(--clinica-tint);
+        }
+
+        .viewer-head h3 {
+            font-size: 1.02rem;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-weight: 700;
+        }
+
+        .viewer-head p {
+            font-size: 0.84rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .viewer-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .viewer-actions a {
+            font-size: 0.84rem;
+        }
+
+        .preview {
+            background: #101c22;
+        }
+
+        .preview iframe, .preview video {
+            display: block;
+            width: 100%;
+            height: min(680px, calc(100vh - 220px));
+            min-height: 500px;
+            border: 0;
+        }
+
+        .preview video {
+            object-fit: contain;
+            background: #101c22;
+        }
+
+        /* ---------- apartados grid ---------- */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .resource-card {
+            display: block;
+            width: 100%;
+            text-align: left;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            background: var(--surface);
+            padding: 16px;
+            cursor: pointer;
+        }
+
+        .resource-card:hover, .resource-card.active {
+            border-color: var(--apartado);
+        }
+
+        .resource-card.active {
+            background: var(--apartado-tint);
+        }
+
+        .resource-code {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.76rem;
+            color: var(--apartado);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .resource-card h4 {
+            font-size: 0.98rem;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .resource-card p {
+            font-size: 0.84rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .resource-viewer {
+            margin-top: 18px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .resource-viewer.active {
+            display: block;
+        }
+
+        .resource-viewer .viewer-head {
+            background: var(--apartado-tint);
+        }
+
+        /* ---------- responsive ---------- */
+        @media (max-width: 1080px) {
+            .cover-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cover-media img {
+                aspect-ratio: 16 / 9;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .brand-row {
+                flex-wrap: wrap;
+            }
+
+            .question {
+                grid-template-columns: 1fr;
+            }
+
+            .q-tag {
+                padding-top: 0;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cover-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .cover-stats div {
+                border-left: 0;
+                border-top: 1px solid var(--line);
+            }
+
+            .cover-stats div:first-child {
+                border-top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="page brand-row">
+            <div class="brand">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <circle cx="15" cy="15" r="14" stroke="#0d6e63" stroke-width="1.4"/>
+                    <path d="M5 15h4l2-6 3 11 2.5-8 1.5 3h7" stroke="#0d6e63" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="brand-text">
+                    <strong>SUIT-IAAS</strong>
+                    <span>HGZ No. 11 Xalapa · UCIN</span>
+                </div>
+            </div>
+            <div class="instrument-tag">Instrumento validado · 22 reactivos</div>
+        </div>
+        <nav class="stepper page" aria-label="Secciones del protocolo">
+            <button class="tab active" type="button" data-section="coverSection"><span class="num">00</span>Inicio</button>
+            <button class="tab" type="button" data-section="preSection"><span class="num">01</span>Pre-Test</button>
+            <button class="tab" type="button" data-section="modulesSection"><span class="num">02</span>Módulos</button>
+            <button class="tab" type="button" data-section="resourcesSection"><span class="num">03</span>Apartados</button>
+            <button class="tab" type="button" data-section="postSection"><span class="num">04</span>Post-Test</button>
+        </nav>
+    </header>
+
+    <div class="page">
+
+        <section class="section active" id="coverSection">
+            <svg class="vitals-divider" viewBox="0 0 600 34" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 17 H220 L235 4 L250 30 L262 17 H600" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+
+            <div class="cover-grid">
+                <div class="cover-copy">
+                    <p class="eyebrow">Intervención educativa digital</p>
+                    <h1>Prevención de las IAAS en el neonato</h1>
+                    <p>Un mismo instrumento evalúa el conocimiento del personal antes y después de recorrer los módulos clínicos y los apartados de actualización, para medir con precisión el efecto de la capacitación.</p>
+
+                    <div class="step-list">
+                        <button class="step-btn" type="button" data-section="preSection">
+                            <span class="step-num">01</span>
+                            <span><strong>Pre-Test</strong><span>Ficha de identificación y 22 reactivos de conocimiento inicial.</span></span>
+                        </button>
+                        <button class="step-btn" type="button" data-section="modulesSection">
+                            <span class="step-num">02</span>
+                            <span><strong>Módulos clínicos</strong><span>Cinco módulos con video y material de referencia por tema.</span></span>
+                        </button>
+                        <button class="step-btn" type="button" data-section="resourcesSection">
+                            <span class="step-num">03</span>
+                            <span><strong>Apartados de actualización</strong><span>Cinco documentos normativos y de práctica transversal.</span></span>
+                        </button>
+                        <button class="step-btn" type="button" data-section="postSection">
+                            <span class="step-num">04</span>
+                            <span><strong>Post-Test</strong><span>Mismo cuestionario para comparar el nivel alcanzado.</span></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cover-media">
+                    <img src="images/cover-neonate.png" alt="Cuidado neonatal">
+                    <div class="cover-stats">
+                        <div><b>22</b><span>Reactivos</span></div>
+                        <div><b>05</b><span>Módulos</span></div>
+                        <div><b>05</b><span>Apartados</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="preSection">
+            <span class="section-kicker">01 / Evaluación inicial</span>
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Pre-Test</h2>
+                        <p class="muted">Ficha de identificación y cuestionario de conocimiento inicial.</p>
+                    </div>
+                    <div class="score" id="preSummary">Sin responder</div>
+                </div>
+                <div class="panel-body">
+                    <div class="profile-grid" aria-label="Ficha de identificación">
+                        <div class="field">
+                            <label for="age">Edad</label>
+                            <input id="age" type="number" min="18" placeholder="Años cumplidos">
+                        </div>
+                        <div class="field">
+                            <label for="sex">Sexo</label>
+                            <select id="sex">
+                                <option value="">Seleccionar</option>
+                                <option>Masculino</option>
+                                <option>Femenino</option>
+                                <option>Otro / Prefiero no decir</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="education">Nivel académico</label>
+                            <select id="education">
+                                <option value="">Seleccionar</option>
+                                <option>Técnico en Enfermería</option>
+                                <option>Licenciatura en Enfermería</option>
+                                <option>Especialidad en Enfermería Pediátrica / Neonatal</option>
+                                <option>Maestría / Doctorado</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="seniority">Antigüedad IMSS</label>
+                            <select id="seniority">
+                                <option value="">Seleccionar</option>
+                                <option>Menos de 1 año</option>
+                                <option>De 1 a 5 años</option>
+                                <option>De 6 a 10 años</option>
+                                <option>Más de 10 años</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="shift">Turno</label>
+                            <select id="shift">
+                                <option value="">Seleccionar</option>
+                                <option>Matutino</option>
+                                <option>Vespertino</option>
+                                <option>Nocturno (A / B)</option>
+                                <option>Jornada Acumulada (Sábados, domingos y días festivos)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="quiz-grid" id="preQuiz"></div>
+                    <div class="form-actions">
+                        <button class="btn primary" type="button" id="submitPre">Calificar Pre-Test</button>
+                        <button class="btn" type="button" id="goModules" disabled>Continuar a módulos →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="modulesSection">
+            <span class="section-kicker">02 / Intervención clínica</span>
+            <div class="panel-head" style="border:0; padding:0;">
+                <div>
+                    <h2>Módulos clínicos</h2>
+                    <p class="muted">Cinco temas prioritarios de prevención de IAAS, con video y material de apoyo.</p>
+                </div>
+            </div>
+
+            <div class="layout">
+                <aside class="sidebar">
+                    <div class="list-head">
+                        <h3>Selecciona un módulo</h3>
+                        <p id="moduleCount">5 módulos disponibles</p>
+                    </div>
+                    <div class="card-list" id="moduleList"></div>
+                </aside>
+
+                <section class="viewer" aria-live="polite">
+                    <div class="viewer-head">
+                        <div>
+                            <h3 id="viewerTitle"></h3>
+                            <p id="viewerDescription"></p>
+                        </div>
+                        <div class="viewer-actions" id="viewerActions"></div>
+                    </div>
+                    <div class="preview" id="preview"></div>
+                </section>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn" type="button" id="backPreFromModules">← Volver al Pre-Test</button>
+                <button class="btn primary" type="button" id="goResources">Continuar a apartados →</button>
+            </div>
+        </section>
+
+        <section class="section" id="resourcesSection">
+            <span class="section-kicker">03 / Actualización transversal</span>
+            <div class="panel-head" style="border:0; padding:0;">
+                <div>
+                    <h2>Apartados de actualización</h2>
+                    <p class="muted">Documentos normativos y de práctica aplicables a los cinco módulos clínicos.</p>
+                </div>
+            </div>
+
+            <div class="resource-grid" id="resourceGrid"></div>
+
+            <div class="resource-viewer" id="resourceViewer">
+                <div class="viewer-head">
+                    <div>
+                        <h3 id="resourceTitle"></h3>
+                        <p id="resourceDescription"></p>
+                    </div>
+                    <div class="viewer-actions">
+                        <a class="btn" id="resourceOpen" target="_blank" rel="noopener">Abrir en pestaña nueva</a>
+                    </div>
+                </div>
+                <div class="preview" id="resourcePreview"></div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn" type="button" id="backModulesFromResources">← Volver a módulos</button>
+                <button class="btn primary" type="button" id="goPost">Continuar a Post-Test →</button>
+            </div>
+        </section>
+
+        <section class="section" id="postSection">
+            <span class="section-kicker">04 / Evaluación final</span>
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Post-Test</h2>
+                        <p class="muted">Mismo instrumento de 22 reactivos, aplicado al finalizar la intervención.</p>
+                    </div>
+                    <div class="score" id="postSummary">Sin responder</div>
+                </div>
+                <div class="panel-body">
+                    <div class="quiz-grid" id="postQuiz"></div>
+                    <div class="form-actions">
+                        <button class="btn primary" type="button" id="submitPost">Calificar Post-Test</button>
+                        <button class="btn" type="button" id="backResourcesFromPost">← Volver a apartados</button>
+                        <button class="btn" type="button" id="downloadCsv" disabled>Descargar resultados CSV</button>
+                    </div>
+                    <div class="result-row" id="comparison"></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const questions = [
+            { q: 'De acuerdo con el PROY-NOM-045-SSA-2026, ¿cuál es la función principal del COVEPCIAAS?', opts: ['Sustituir las funciones operativas de las jefaturas de enfermería.', 'Autorizar exclusivamente la adquisición de insumos para control de infecciones.', 'Coordinar las acciones de vigilancia, prevención y control de las IAAS dentro de la institución.', 'Aplicar sanciones administrativas al personal que incumpla las medidas preventivas.'], a: 2 },
+            { q: 'Durante la atención de un paciente pediátrico, ¿cuál de los cinco momentos para la higiene de manos protege principalmente al entorno del paciente?', opts: ['Después del contacto con el entorno del paciente.', 'Antes del contacto con el paciente.', 'Antes de realizar un procedimiento aséptico.', 'Después del riesgo de exposición a líquidos corporales.'], a: 0 },
+            { q: 'Una enfermera manipula un catéter venoso central y posteriormente atiende a otro paciente sin higiene de manos. ¿Cuál es el principal mecanismo de transmisión de SARM?', opts: ['Transmisión aérea mediante gotas respiratorias.', 'Microaspiración de secreciones respiratorias.', 'Diseminación por el sistema de ventilación hospitalario.', 'Transmisión cruzada a través de las manos del personal de salud.'], a: 3 },
+            { q: '¿Cuál acción establece el PROY-NOM-045-SSA-2026 para fortalecer la vigilancia epidemiológica y el control de la RAM?', opts: ['Realizar monitoreo microbiológico y mantener actualizado el mapa epidemiológico institucional.', 'Aislar de forma obligatoria a todos los pacientes que ingresan a terapia intensiva.', 'Administrar antibióticos profilácticos en todos los procedimientos invasivos.', 'Suspender la toma de cultivos cuando el paciente no presente fiebre.'], a: 0 },
+            { q: '¿Cuál es el principal mecanismo por el que Pseudomonas aeruginosa presenta mayor resistencia al tratamiento antimicrobiano en NAVM?', opts: ['Formación de esporas resistentes.', 'Localización exclusiva en los alvéolos pulmonares.', 'Formación de una biopelícula que protege a la bacteria frente a los antimicrobianos.', 'Multiplicación únicamente en ausencia de oxígeno.'], a: 2 },
+            { q: '¿Cuál es la posición recomendada de la cabecera en pacientes con ventilación mecánica para disminuir el riesgo de NAVM?', opts: ['Entre 0° y 10°.', 'Según el confort del paciente.', 'A 45° en todos los pacientes.', 'Entre 15° y 30°.'], a: 3 },
+            { q: 'Durante la aspiración de secreciones en ventilación mecánica, ¿qué práctica disminuye el riesgo de desplazar microorganismos al árbol respiratorio inferior?', opts: ['Instilar solución salina antes de cada aspiración.', 'Utilizar un sistema de aspiración cerrado y evitar la instilación rutinaria de solución salina.', 'Realizar aspiración abierta cada treinta minutos.', 'Desconectar el ventilador para introducir una sonda convencional.'], a: 1 },
+            { q: '¿Cuál es el objetivo principal de realizar higiene oral protocolizada en pacientes con ventilación mecánica?', opts: ['Favorecer la extubación temprana.', 'Disminuir la colonización bacteriana orofaríngea y reducir el riesgo de NAVM.', 'Sustituir la aspiración de secreciones.', 'Disminuir el consumo de oxígeno.'], a: 1 },
+            { q: 'Durante la inserción de un catéter venoso central, ¿qué conjunto de medidas corresponde a la técnica de barrera máxima?', opts: ['Higiene de manos, guantes limpios y campo estéril pequeño.', 'Higiene de manos y cubrebocas.', 'Higiene de manos, bata estéril, guantes estériles, preparación antiséptica de la piel y campo estéril amplio.', 'Guantes estériles y antisepsia únicamente en el sitio de punción.'], a: 2 },
+            { q: 'Antes de insertar un catéter venoso central se realiza antisepsia de la piel. ¿Cuál es la finalidad principal?', opts: ['Eliminar permanentemente toda la microbiota residente.', 'Sustituir la técnica aséptica.', 'Favorecer la cicatrización del sitio de inserción.', 'Reducir la carga microbiana de la piel para disminuir el riesgo de infección asociada al catéter.'], a: 3 },
+            { q: '¿Cuál es el principal mecanismo por el que Staphylococcus epidermidis ocasiona infecciones relacionadas con catéteres venosos centrales?', opts: ['Adhesión al material plástico del catéter a partir de la flora normal de la piel.', 'Migración retrógrada desde el tracto urinario.', 'Translocación bacteriana intestinal.', 'Contaminación exclusiva durante la preparación de medicamentos.'], a: 0 },
+            { q: 'Antes de administrar un medicamento por un catéter venoso central, ¿qué acción reduce significativamente el riesgo de contaminación del dispositivo?', opts: ['Cubrir el puerto con una gasa estéril.', 'Desinfectar el puerto de inyección con alcohol al 70 % durante 5 a 15 segundos.', 'Cambiar el conector antes de cada administración.', 'Utilizar la misma jeringa para purgar y administrar.'], a: 1 },
+            { q: '¿Por qué se recomienda mantener la bolsa recolectora de orina por debajo del nivel de la vejiga?', opts: ['Facilitar el registro del gasto urinario.', 'Evitar el deterioro de la bolsa.', 'Prevenir el reflujo de orina contaminada y el ascenso retrógrado de microorganismos hacia la vejiga.', 'Mantener presión negativa constante.'], a: 2 },
+            { q: 'En un paciente pediátrico masculino portador de sonda urinaria permanente, ¿cuál es el sitio recomendado para fijar el catéter?', opts: ['Región inguinal.', 'Sin fijación.', 'Cara anterior del abdomen.', 'Cara interna del muslo, evitando la tracción excesiva.'], a: 3 },
+            { q: '¿Qué estructura de Escherichia coli favorece principalmente la colonización del tracto urinario?', opts: ['Los pili o fimbrias de adhesión.', 'La cápsula bacteriana.', 'Las enzimas degradadoras de látex.', 'La multiplicación exclusiva en medios alcalinos.'], a: 0 },
+            { q: '¿En qué situación está justificado romper el circuito cerrado del sistema de drenaje urinario?', opts: ['Para obtener muestras rutinarias.', 'Prácticamente en ninguna circunstancia; las muestras deben obtenerse mediante el puerto diseñado utilizando técnica aséptica.', 'Cada vez que se vacía la bolsa.', 'Al finalizar cada turno.'], a: 1 },
+            { q: 'Un paciente ingresará a cirugía programada. ¿Cuál es el momento recomendado para administrar la profilaxis antimicrobiana perioperatoria?', opts: ['Al finalizar la cirugía.', 'Veinticuatro horas antes.', 'Dentro de los 60 minutos previos a la incisión quirúrgica.', 'Solo cuando exista contaminación visible.'], a: 2 },
+            { q: '¿Cómo se clasifica una cirugía en la que se penetra el tracto respiratorio, digestivo o urinario bajo condiciones controladas y sin contaminación inusual?', opts: ['Herida limpia.', 'Herida contaminada.', 'Herida sucia.', 'Herida limpia-contaminada.'], a: 3 },
+            { q: '¿Cuál es la recomendación vigente para la remoción del vello en el sitio quirúrgico cuando esta sea necesaria?', opts: ['Utilizar una recortadora eléctrica inmediatamente antes del procedimiento quirúrgico.', 'Rasurar con navaja la noche previa.', 'Utilizar crema depilatoria de forma rutinaria.', 'Remover el vello en todos los pacientes independientemente del procedimiento.'], a: 0 },
+            { q: '¿Qué característica de Streptococcus pyogenes favorece su capacidad para producir infecciones del sitio quirúrgico con rápida diseminación?', opts: ['Resistencia absoluta a todos los antisépticos.', 'Producción de enzimas y factores de virulencia que facilitan la invasión y destrucción de tejidos.', 'Multiplicación exclusiva en tejido necrótico.', 'Mutación inmediata al contacto con el oxígeno.'], a: 1 },
+            { q: '¿Cuál es la principal ventaja de una estrategia de educación digital asincrónica para capacitar al personal de enfermería en prevención de IAAS?', opts: ['Permite que todo el personal reciba la capacitación únicamente en horario laboral.', 'Favorece el acceso flexible al contenido de acuerdo con la disponibilidad del participante sin afectar la atención del paciente.', 'Sustituye la supervisión clínica durante la práctica asistencial.', 'Elimina la necesidad de actualizar periódicamente los contenidos educativos.'], a: 1 },
+            { q: 'Durante una intervención educativa digital para la prevención de IAAS, ¿qué característica de un EVA favorece principalmente el aprendizaje significativo?', opts: ['Presentar exclusivamente documentos en formato PDF para su lectura.', 'Limitar el acceso a un único dispositivo institucional.', 'Integrar módulos interactivos, recursos multimedia y evaluaciones que permitan avanzar de forma autónoma y reforzar conocimientos.', 'Reemplazar completamente la práctica clínica supervisada.'], a: 2 }
+        ];
+
+        const modules = [
+            { number: '01', title: 'Higiene de manos', description: 'Higiene de manos y control neonatal.', image: 'modulo 1/WhatsApp Image 2026-06-15 at 3.51.18 AM.jpeg', primary: { label: 'Ver PDF', type: 'pdf', path: 'modulo 1/Higiene de Manos y Control Neonatal.pdf' }, secondary: { label: 'Ver video', type: 'video', path: 'modulo 1/video-modulo-1-iaas.mp4' } },
+            { number: '02', title: 'Torrente sanguíneo', description: 'Bacteriemia y patogénesis neonatal.', image: 'modulo 2/WhatsApp Image 2026-06-15 at 3.36.47 AM.jpeg', primary: { label: 'Ver PDF', type: 'pdf', path: 'modulo 2/Bacteriemia y Patogénesis Neonatal.pdf' }, secondary: { label: 'Ver video', type: 'video', path: 'modulo 2/Video-modulo-2-its.mp4' } },
+            { number: '03', title: 'NAV y biofilm', description: 'Prevención de neumonía asociada a ventilación y biofilm.', image: 'modulo 3/WhatsApp Image 2026-06-15 at 4.10.34 AM.jpeg', primary: { label: 'Ver PDF', type: 'pdf', path: 'modulo 3/Prevención de NAV y Biofilm.pdf' }, secondary: { label: 'Ver video', type: 'video', path: 'modulo 3/video-modulo-3-nav.mp4' } },
+            { number: '04', title: 'Sitio quirúrgico', description: 'Infecciones de sitio quirúrgico en la UCIN.', image: 'modulo 4/WhatsApp Image 2026-06-15 at 4.52.04 AM.jpeg', primary: { label: 'Ver presentación', type: 'html', path: 'modulo 4/gemini-code-1781781458487.html' }, secondary: { label: 'Ver video', type: 'video', path: 'modulo 4/video-modulo-4-isq.mp4' } },
+            { number: '05', title: 'IVU asociada a catéter', description: 'Prevención de infecciones de vías urinarias asociadas a catéter vesical.', image: 'modulo 5/WhatsApp Image 2026-06-15 at 4.55.16 AM.jpeg', primary: { label: 'Ver presentación', type: 'html', path: 'modulo 5/gemini-code-1781781718775.html' }, secondary: { label: 'Ver video', type: 'video', path: 'modulo 5/video-modulo-5-itu.mp4' } }
+        ];
+
+        const resources = [
+            { code: 'A1', title: 'Marco normativo', description: 'Lineamientos y marco legal para la vigilancia, prevención y control de IAAS (PROY-NOM-045-SSA-2026, COVEPCIAAS).', path: 'normativo.pdf' },
+            { code: 'A2', title: 'Vigilancia epidemiológica', description: 'Sistema de notificación, indicadores y análisis de tendencias de IAAS.', path: 'vigilancia.pdf' },
+            { code: 'A3', title: 'Prevención integral', description: 'Higiene de manos, equipamiento estéril, desinfección y bioseguridad.', path: 'prevencion.pdf' },
+            { code: 'A4', title: 'Fijación de dispositivos', description: 'Criterios de fijación segura de catéteres, sondas y tubos.', path: 'fijaciones.pdf' },
+            { code: 'A5', title: 'Alimentación segura', description: 'Lactancia materna, nutrición enteral temprana y manejo higiénico de fórmulas.', path: 'alimentacion.pdf' }
+        ];
+
+        const moduleList = document.getElementById('moduleList');
+        const moduleCount = document.getElementById('moduleCount');
+        const viewerTitle = document.getElementById('viewerTitle');
+        const viewerDescription = document.getElementById('viewerDescription');
+        const viewerActions = document.getElementById('viewerActions');
+        const preview = document.getElementById('preview');
+
+        const resourceGrid = document.getElementById('resourceGrid');
+        const resourceViewer = document.getElementById('resourceViewer');
+        const resourceTitle = document.getElementById('resourceTitle');
+        const resourceDescription = document.getElementById('resourceDescription');
+        const resourceOpen = document.getElementById('resourceOpen');
+        const resourcePreview = document.getElementById('resourcePreview');
+
+        let activeModuleIndex = 0;
+        let activeResourceIndex = null;
+        let preScore = null;
+        let postScore = null;
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => section.classList.toggle('active', section.id === sectionId));
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.section === sectionId));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderQuiz(containerId, groupName) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            questions.forEach((question, index) => {
+                const article = document.createElement('article');
+                article.className = 'question';
+                const options = question.opts.map((option, optionIndex) => `
+                    <label class="option">
+                        <input type="radio" name="${groupName}-${index}" value="${optionIndex}">
+                        <span>${String.fromCharCode(97 + optionIndex)}) ${option}</span>
+                    </label>
+                `).join('');
+                article.innerHTML = `<div class="q-tag mono">R-${String(index + 1).padStart(2, '0')}</div><div><h3>${question.q}</h3><div class="options">${options}</div></div>`;
+                container.appendChild(article);
+            });
+        }
+
+        function gradeQuiz(groupName) {
+            let score = 0;
+            let answered = 0;
+            questions.forEach((question, index) => {
+                const selected = document.querySelector(`input[name="${groupName}-${index}"]:checked`);
+                if (!selected) return;
+                answered += 1;
+                if (Number(selected.value) === question.a) score += 1;
+            });
+            return { score, answered };
+        }
+
+        function levelFor(score) {
+            if (score >= 18) return { label: 'Alto', key: 'alto' };
+            if (score >= 13) return { label: 'Medio', key: 'medio' };
+            return { label: 'Bajo', key: 'bajo' };
+        }
+
+        function updateScoreBox(element, score) {
+            const percentage = Math.round((score / questions.length) * 100);
+            const level = levelFor(score);
+            element.className = `score ${level.key}`;
+            element.textContent = `${score}/${questions.length} (${percentage} %) · Nivel ${level.label}`;
+        }
+
+        function updateComparison() {
+            const comparison = document.getElementById('comparison');
+            if (preScore === null || postScore === null) {
+                comparison.innerHTML = '';
+                return;
+            }
+            const delta = postScore - preScore;
+            const word = delta > 0 ? 'mejora' : delta < 0 ? 'disminución' : 'sin cambio';
+            comparison.innerHTML = `<div class="score">Comparación · Pre-Test ${preScore}/22 → Post-Test ${postScore}/22 (${word} de ${Math.abs(delta)} punto${Math.abs(delta) === 1 ? '' : 's'})</div>`;
+        }
+
+        function getDemographics() {
+            return {
+                edad: document.getElementById('age').value,
+                sexo: document.getElementById('sex').value,
+                nivel_academico: document.getElementById('education').value,
+                antiguedad_imss: document.getElementById('seniority').value,
+                turno: document.getElementById('shift').value
+            };
+        }
+
+        function csvEscape(value) {
+            return `"${String(value ?? '').replaceAll('"', '""')}"`;
+        }
+
+        function buildCsv() {
+            const demographics = getDemographics();
+            const preLevel = levelFor(preScore);
+            const postLevel = levelFor(postScore);
+            const delta = postScore - preScore;
+            const headers = ['edad', 'sexo', 'nivel_academico', 'antiguedad_imss', 'turno', 'pre_puntaje', 'pre_porcentaje', 'pre_nivel', 'post_puntaje', 'post_porcentaje', 'post_nivel', 'diferencia_puntos'];
+            const values = [
+                demographics.edad, demographics.sexo, demographics.nivel_academico, demographics.antiguedad_imss, demographics.turno,
+                preScore, Math.round((preScore / questions.length) * 100), preLevel.label,
+                postScore, Math.round((postScore / questions.length) * 100), postLevel.label,
+                delta
+            ];
+            return `${headers.join(',')}\n${values.map(csvEscape).join(',')}\n`;
+        }
+
+        function downloadCsv() {
+            if (preScore === null || postScore === null) {
+                alert('Primero califica el Pre-Test y el Post-Test.');
+                return;
+            }
+            const blob = new Blob([buildCsv()], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'resultados-iaas-pre-post.csv';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function renderModuleList() {
+            moduleList.innerHTML = '';
+            moduleCount.textContent = `${modules.length} módulos disponibles`;
+            modules.forEach((module, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `card-item${index === activeModuleIndex ? ' active' : ''}`;
+                button.onclick = () => selectModule(index);
+                const thumb = module.image
+                    ? `<img class="thumb" src="${encodeURI(module.image)}" alt="">`
+                    : `<div class="thumb thumb-fallback">${module.number}</div>`;
+                button.innerHTML = `${thumb}<div><h4>${module.number} · ${module.title}</h4><p>${module.description}</p></div>`;
+                moduleList.appendChild(button);
+            });
+        }
+
+        function showResource(resource, targetPreview) {
+            const safePath = encodeURI(resource.path);
+            if (resource.type === 'video') {
+                targetPreview.innerHTML = `<video src="${safePath}" controls></video>`;
+                return;
+            }
+            targetPreview.innerHTML = `<iframe src="${safePath}" title="${resource.label}"></iframe>`;
+        }
+
+        function renderModuleActions(module) {
+            const links = [module.primary, module.secondary].filter(Boolean);
+            viewerActions.innerHTML = '';
+            links.forEach((resource, index) => {
+                const action = document.createElement('a');
+                action.href = encodeURI(resource.path);
+                action.className = `btn${index === 0 ? ' primary' : ''}`;
+                action.textContent = resource.label;
+                action.onclick = event => {
+                    event.preventDefault();
+                    showResource(resource, preview);
+                };
+                viewerActions.appendChild(action);
+            });
+        }
+
+        function selectModule(index) {
+            activeModuleIndex = index;
+            const module = modules[index];
+            viewerTitle.textContent = `${module.number} · ${module.title}`;
+            viewerDescription.textContent = module.description;
+            renderModuleActions(module);
+            showResource(module.primary, preview);
+            renderModuleList();
+        }
+
+        function renderResourceGrid() {
+            resourceGrid.innerHTML = '';
+            resources.forEach((resource, index) => {
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.className = `resource-card${index === activeResourceIndex ? ' active' : ''}`;
+                card.onclick = () => selectResource(index);
+                card.innerHTML = `<span class="resource-code mono">${resource.code}</span><h4>${resource.title}</h4><p>${resource.description}</p>`;
+                resourceGrid.appendChild(card);
+            });
+        }
+
+        function selectResource(index) {
+            activeResourceIndex = index;
+            const resource = resources[index];
+            resourceTitle.textContent = `${resource.code} · ${resource.title}`;
+            resourceDescription.textContent = resource.description;
+            resourceOpen.href = encodeURI(resource.path);
+            showResource({ type: 'pdf', path: resource.path, label: resource.title }, resourcePreview);
+            resourceViewer.classList.add('active');
+            renderResourceGrid();
+        }
+
+        renderQuiz('preQuiz', 'pre');
+        renderQuiz('postQuiz', 'post');
+        renderModuleList();
+        renderResourceGrid();
+        selectModule(0);
+
+        document.getElementById('submitPre').addEventListener('click', () => {
+            const result = gradeQuiz('pre');
+            if (result.answered < questions.length) {
+                alert(`Faltan ${questions.length - result.answered} reactivo(s) por responder en el Pre-Test.`);
+                return;
+            }
+            preScore = result.score;
+            updateScoreBox(document.getElementById('preSummary'), preScore);
+            document.getElementById('goModules').disabled = false;
+        });
+
+        document.getElementById('submitPost').addEventListener('click', () => {
+            const result = gradeQuiz('post');
+            if (result.answered < questions.length) {
+                alert(`Faltan ${questions.length - result.answered} reactivo(s) por responder en el Post-Test.`);
+                return;
+            }
+            postScore = result.score;
+            updateScoreBox(document.getElementById('postSummary'), postScore);
+            updateComparison();
+            document.getElementById('downloadCsv').disabled = false;
+        });
+
+        document.getElementById('goModules').addEventListener('click', () => showSection('modulesSection'));
+        document.getElementById('backPreFromModules').addEventListener('click', () => showSection('preSection'));
+        document.getElementById('goResources').addEventListener('click', () => showSection('resourcesSection'));
+        document.getElementById('backModulesFromResources').addEventListener('click', () => showSection('modulesSection'));
+        document.getElementById('goPost').addEventListener('click', () => showSection('postSection'));
+        document.getElementById('backResourcesFromPost').addEventListener('click', () => showSection('resourcesSection'));
+        document.getElementById('downloadCsv').addEventListener('click', downloadCsv);
+
+        document.querySelectorAll('[data-section]').forEach(button => {
+            button.addEventListener('click', () => showSection(button.dataset.section));
+        });
+    </script>
+</body>
+
+</html>
