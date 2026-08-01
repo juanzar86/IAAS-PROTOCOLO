@@ -1147,7 +1147,7 @@
         }
 
         function csvEscape(value) {
-            return `"${String(value ?? '').replaceAll('"', '""')}"`;
+            return `"${String(value === undefined || value === null ? '' : value).replace(/"/g, '""')}"`;
         }
 
         function buildCsv() {
