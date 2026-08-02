@@ -79,6 +79,166 @@
             margin: 0 auto;
         }
 
+        body.gated .site-header,
+        body.gated .page {
+            display: none;
+        }
+
+        /* ---------- gate (bienvenida + consentimiento) ---------- */
+        .gate {
+            display: none;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+        }
+
+        body.gated .gate {
+            display: flex;
+        }
+
+        .gate-card {
+            max-width: 620px;
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 34px 32px;
+        }
+
+        .gate-card .eyebrow {
+            margin-bottom: 10px;
+        }
+
+        .gate-card h1 {
+            font-size: 1.7rem;
+            margin-bottom: 16px;
+        }
+
+        .gate-card p {
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 14px;
+        }
+
+        .gate-consent {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--line);
+            display: grid;
+            gap: 12px;
+        }
+
+        .consent-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .consent-row input {
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* ---------- progress bar ---------- */
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 6px;
+            border-radius: 999px;
+            background: var(--line);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--teal);
+            transition: width 0.4s ease;
+        }
+
+        .progress-label {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.76rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        /* ---------- status dots (módulos / apartados vistos) ---------- */
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1.5px solid var(--muted);
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        .status-dot.done {
+            background: var(--teal);
+            border-color: var(--teal);
+        }
+
+        /* ---------- pantalla final ---------- */
+        .thanks-card {
+            margin-top: 22px;
+            border: 1px solid var(--teal);
+            background: #eef8f6;
+            border-radius: 4px;
+            padding: 22px;
+            display: none;
+        }
+
+        .thanks-card.active {
+            display: block;
+        }
+
+        .thanks-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .thanks-card p {
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .thanks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .thanks-grid div {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            padding: 10px 12px;
+        }
+
+        .thanks-grid span {
+            display: block;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+        }
+
+        .thanks-grid b {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 1.05rem;
+        }
+
         /* ---------- header / stepper nav ---------- */
         .site-header {
             border-bottom: 1px solid var(--line);
@@ -793,7 +953,29 @@
     </style>
 </head>
 
-<body>
+<body class="gated">
+    <div class="gate" id="gate">
+        <div class="gate-card">
+            <p class="eyebrow">HGZ No. 11 Xalapa · UCIN</p>
+            <h1>Bienvenido(a)</h1>
+            <p>Esta intervención educativa digital tiene como finalidad fortalecer el conocimiento del personal de enfermería sobre la prevención de las Infecciones Asociadas a la Asistencia Sanitaria (IAAS) en pacientes menores de un año.</p>
+            <p>Consta de un cuestionario inicial (Pre-Test), cinco módulos clínicos, cinco apartados de actualización, y un cuestionario final (Post-Test) para medir el conocimiento adquirido. Su duración estimada es de 45 a 60 minutos.</p>
+            <p><strong>Su participación es voluntaria.</strong> Puede detenerse en cualquier momento sin ninguna consecuencia. La información recabada se utiliza únicamente con fines de investigación y mejora de la práctica clínica, y se maneja de forma confidencial.</p>
+
+            <div class="gate-consent">
+                <label class="consent-row">
+                    <input type="checkbox" id="consentRead">
+                    <span>He leído la información anterior sobre la intervención educativa.</span>
+                </label>
+                <label class="consent-row">
+                    <input type="checkbox" id="consentAccept">
+                    <span>Acepto participar de manera voluntaria en esta intervención educativa.</span>
+                </label>
+                <button class="btn primary" type="button" id="gateContinue" disabled style="justify-content:center; margin-top:6px;">Continuar</button>
+            </div>
+        </div>
+    </div>
+
     <header class="site-header">
         <div class="page brand-row">
             <div class="brand">
@@ -815,6 +997,10 @@
             <button class="tab" type="button" data-section="resourcesSection"><span class="num">03</span>Apartados</button>
             <button class="tab" type="button" data-section="postSection"><span class="num">04</span>Post-Test</button>
         </nav>
+        <div class="page progress-wrap">
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+            <span class="progress-label mono" id="progressLabel">Progreso 0%</span>
+        </div>
     </header>
 
     <div class="page">
@@ -939,7 +1125,7 @@
                 <aside class="sidebar">
                     <div class="list-head">
                         <h3>Selecciona un módulo</h3>
-                        <p id="moduleCount">5 módulos disponibles</p>
+                        <p id="moduleCount">5 módulos disponibles · 0 vistos</p>
                     </div>
                     <div class="card-list" id="moduleList"></div>
                 </aside>
@@ -967,7 +1153,7 @@
             <div class="panel-head" style="border:0; padding:0;">
                 <div>
                     <h2>Apartados de actualización</h2>
-                    <p class="muted">Documentos normativos y de práctica aplicables a los cinco módulos clínicos.</p>
+                    <p class="muted" id="resourceCount">Documentos normativos y de práctica aplicables a los cinco módulos clínicos · 0 vistos</p>
                 </div>
             </div>
 
@@ -1010,6 +1196,17 @@
                         <button class="btn" type="button" id="downloadCsv" disabled>Descargar resultados CSV</button>
                     </div>
                     <div class="result-row" id="comparison"></div>
+
+                    <div class="thanks-card" id="thanksCard">
+                        <h3>Gracias por participar</h3>
+                        <p>Su evaluación fue registrada correctamente. Este es el resumen de su desempeño en la intervención.</p>
+                        <div class="thanks-grid">
+                            <div><span>Participante</span><b id="thanksId">—</b></div>
+                            <div><span>Pre-Test</span><b id="thanksPre">—</b></div>
+                            <div><span>Post-Test</span><b id="thanksPost">—</b></div>
+                            <div><span>Incremento</span><b id="thanksDelta">—</b></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1076,6 +1273,59 @@
         let activeResourceIndex = null;
         let preScore = null;
         let postScore = null;
+
+        // ---------- seguimiento (fidelidad de la intervención) ----------
+        // Pega aquí la URL de tu Google Apps Script (termina en /exec) para
+        // que cada evento se registre automáticamente en una hoja de cálculo.
+        // Mientras esté vacío, el registro simplemente no se envía a ningún lado.
+        const GOOGLE_SCRIPT_URL = '';
+
+        const participantId = 'P-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
+        const modulesViewed = new Set();
+        const resourcesViewed = new Set();
+        let currentModuleIndex = null;
+        let moduleEnterTime = null;
+
+        function logEvent(evento, detalle, duracionSeg) {
+            if (!GOOGLE_SCRIPT_URL) return;
+            const demographics = getDemographics();
+            const payload = {
+                participante_id: participantId,
+                evento: evento,
+                detalle: detalle || '',
+                duracion_seg: duracionSeg || '',
+                edad: demographics.edad,
+                sexo: demographics.sexo,
+                nivel_academico: demographics.nivel_academico,
+                antiguedad_imss: demographics.antiguedad_imss,
+                turno: demographics.turno
+            };
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            }).catch(() => {});
+        }
+
+        function flushModuleTime() {
+            if (currentModuleIndex === null || moduleEnterTime === null) return;
+            const seconds = Math.round((Date.now() - moduleEnterTime) / 1000);
+            logEvent('modulo_tiempo', modules[currentModuleIndex].title, seconds);
+            moduleEnterTime = null;
+        }
+
+        function updateProgress() {
+            const modulesDone = modulesViewed.size === modules.length;
+            const resourcesDone = resourcesViewed.size === resources.length;
+            let percent = 0;
+            if (preScore !== null) percent += 25;
+            if (modulesDone) percent += 25;
+            if (resourcesDone) percent += 25;
+            if (postScore !== null) percent += 25;
+            document.getElementById('progressFill').style.width = `${percent}%`;
+            document.getElementById('progressLabel').textContent = `Progreso ${percent}%`;
+        }
 
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(section => section.classList.toggle('active', section.id === sectionId));
@@ -1183,7 +1433,7 @@
 
         function renderModuleList() {
             moduleList.innerHTML = '';
-            moduleCount.textContent = `${modules.length} módulos disponibles`;
+            moduleCount.textContent = `${modules.length} módulos disponibles · ${modulesViewed.size} vistos`;
             modules.forEach((module, index) => {
                 const button = document.createElement('button');
                 button.type = 'button';
@@ -1192,7 +1442,8 @@
                 const thumb = module.image
                     ? `<img class="thumb" src="${encodeURI(module.image)}" alt="">`
                     : `<div class="thumb thumb-fallback">${module.number}</div>`;
-                button.innerHTML = `${thumb}<div><h4>${module.number} · ${module.title}</h4><p>${module.description}</p></div>`;
+                const dot = `<span class="status-dot${modulesViewed.has(index) ? ' done' : ''}"></span>`;
+                button.innerHTML = `${thumb}<div><h4>${dot}${module.number} · ${module.title}</h4><p>${module.description}</p></div>`;
                 moduleList.appendChild(button);
             });
         }
@@ -1217,35 +1468,48 @@
                 action.onclick = event => {
                     event.preventDefault();
                     showResource(resource, preview);
+                    logEvent('recurso_visto', `${module.title} · ${resource.label}`);
                 };
                 viewerActions.appendChild(action);
             });
         }
 
-        function selectModule(index) {
-            activeModuleIndex = index;
+        function selectModule(index, silent) {
             const module = modules[index];
+            activeModuleIndex = index;
             viewerTitle.textContent = `${module.number} · ${module.title}`;
             viewerDescription.textContent = module.description;
             renderModuleActions(module);
             showResource(module.primary, preview);
             renderModuleList();
+            if (silent) return;
+            flushModuleTime();
+            currentModuleIndex = index;
+            moduleEnterTime = Date.now();
+            modulesViewed.add(index);
+            renderModuleList();
+            logEvent('modulo_abierto', module.title);
+            updateProgress();
         }
 
         function renderResourceGrid() {
             resourceGrid.innerHTML = '';
+            const countLabel = document.getElementById('resourceCount');
+            if (countLabel) countLabel.textContent = `Documentos normativos y de práctica aplicables a los cinco módulos clínicos · ${resourcesViewed.size} vistos`;
             resources.forEach((resource, index) => {
                 const card = document.createElement('button');
                 card.type = 'button';
                 card.className = `resource-card${index === activeResourceIndex ? ' active' : ''}`;
                 card.onclick = () => selectResource(index);
-                card.innerHTML = `<span class="resource-code mono">${resource.code}</span><h4>${resource.title}</h4><p>${resource.description}</p>`;
+                const dot = `<span class="status-dot${resourcesViewed.has(index) ? ' done' : ''}"></span>`;
+                card.innerHTML = `<span class="resource-code mono">${dot}${resource.code}</span><h4>${resource.title}</h4><p>${resource.description}</p>`;
                 resourceGrid.appendChild(card);
             });
         }
 
         function selectResource(index) {
             activeResourceIndex = index;
+            resourcesViewed.add(index);
             const resource = resources[index];
             resourceTitle.textContent = `${resource.code} · ${resource.title}`;
             resourceDescription.textContent = resource.description;
@@ -1253,13 +1517,15 @@
             showResource({ type: 'pdf', path: resource.path, label: resource.title }, resourcePreview);
             resourceViewer.classList.add('active');
             renderResourceGrid();
+            logEvent('apartado_visto', resource.title);
+            updateProgress();
         }
 
         renderQuiz('preQuiz', 'pre');
         renderQuiz('postQuiz', 'post');
         renderModuleList();
         renderResourceGrid();
-        selectModule(0);
+        selectModule(0, true);
 
         document.getElementById('submitPre').addEventListener('click', () => {
             const result = gradeQuiz('pre');
@@ -1270,6 +1536,8 @@
             preScore = result.score;
             updateScoreBox(document.getElementById('preSummary'), preScore);
             document.getElementById('goModules').disabled = false;
+            logEvent('pretest_completado', preScore);
+            updateProgress();
         });
 
         document.getElementById('submitPost').addEventListener('click', () => {
@@ -1282,11 +1550,21 @@
             updateScoreBox(document.getElementById('postSummary'), postScore);
             updateComparison();
             document.getElementById('downloadCsv').disabled = false;
+            logEvent('postest_completado', postScore);
+            logEvent('resumen_final', `pre:${preScore} post:${postScore} incremento:${postScore - preScore}`);
+            updateProgress();
+
+            const delta = postScore - preScore;
+            document.getElementById('thanksId').textContent = participantId;
+            document.getElementById('thanksPre').textContent = `${preScore}/${questions.length}`;
+            document.getElementById('thanksPost').textContent = `${postScore}/${questions.length}`;
+            document.getElementById('thanksDelta').textContent = `${delta > 0 ? '+' : ''}${delta} pts`;
+            document.getElementById('thanksCard').classList.add('active');
         });
 
         document.getElementById('goModules').addEventListener('click', () => showSection('modulesSection'));
         document.getElementById('backPreFromModules').addEventListener('click', () => showSection('preSection'));
-        document.getElementById('goResources').addEventListener('click', () => showSection('resourcesSection'));
+        document.getElementById('goResources').addEventListener('click', () => { flushModuleTime(); showSection('resourcesSection'); });
         document.getElementById('backModulesFromResources').addEventListener('click', () => showSection('modulesSection'));
         document.getElementById('goPost').addEventListener('click', () => showSection('postSection'));
         document.getElementById('backResourcesFromPost').addEventListener('click', () => showSection('resourcesSection'));
@@ -1295,6 +1573,29 @@
         document.querySelectorAll('[data-section]').forEach(button => {
             button.addEventListener('click', () => showSection(button.dataset.section));
         });
+
+        window.addEventListener('beforeunload', flushModuleTime);
+
+        // ---------- bienvenida y consentimiento ----------
+        const consentRead = document.getElementById('consentRead');
+        const consentAccept = document.getElementById('consentAccept');
+        const gateContinue = document.getElementById('gateContinue');
+
+        function refreshGateButton() {
+            gateContinue.disabled = !(consentRead.checked && consentAccept.checked);
+        }
+
+        consentRead.addEventListener('change', refreshGateButton);
+        consentAccept.addEventListener('change', refreshGateButton);
+
+        gateContinue.addEventListener('click', () => {
+            document.body.classList.remove('gated');
+            logEvent('consentimiento_aceptado');
+            window.scrollTo({ top: 0 });
+        });
+
+        logEvent('sesion_iniciada');
+        updateProgress();
     </script>
 </body>
 
