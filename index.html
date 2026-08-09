@@ -1373,7 +1373,6 @@
         const preview = document.getElementById('preview');
 
         const resourceGridUpdates = document.getElementById('resourceGridUpdates');
-        const resourceGridFixations = document.getElementById('resourceGridFixations');
         const resourceGridQueries = document.getElementById('resourceGridQueries');
         const resourceViewerUpdates = document.getElementById('resourceViewerUpdates');
         const resourceTitleUpdates = document.getElementById('resourceTitleUpdates');
@@ -1394,10 +1393,6 @@
         let preScore = null;
         let postScore = null;
 
-        // ---------- seguimiento (fidelidad de la intervención) ----------
-        // Pega aquí la URL de tu Google Apps Script (termina en /exec) para
-        // que cada evento se registre automáticamente en una hoja de cálculo.
-        // Mientras esté vacío, el registro simplemente no se envía a ningún lado.
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypKk3qeNYhHG70IAtluzugks4EOAXQOdHgvUVvAHvJbJbeTdCs_ZtR7kBUny0UezoPtA/exec';
 
         const participantId = 'P-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
@@ -1635,10 +1630,8 @@
                 card.onclick = () => selectResource(index);
                 const dot = `<span class="status-dot${resourcesViewed.has(index) ? ' done' : ''}"></span>`;
                 card.innerHTML = `<span class="resource-code mono">${dot}${resource.code}</span><h4>${resource.title}</h4><p>${resource.description}</p>`;
-                if (resource.category === 'apartado') {
+                if (resource.category === 'apartado' || resource.category === 'fijaciones') {
                     resourceGridUpdates.appendChild(card);
-                } else if (resource.category === 'fijaciones') {
-                    resourceGridFixations.appendChild(card);
                 } else {
                     resourceGridQueries.appendChild(card);
                 }
@@ -1734,7 +1727,6 @@
 
         window.addEventListener('beforeunload', flushModuleTime);
 
-        // ---------- bienvenida y consentimiento ----------
         const consentRead = document.getElementById('consentRead');
         const consentAccept = document.getElementById('consentAccept');
         const gateContinue = document.getElementById('gateContinue');
