@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,8 +25,15 @@
             --low: #b8412f;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             margin: 0;
@@ -35,18 +43,34 @@
             line-height: 1.6;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: Georgia, serif;
             font-weight: 600;
             line-height: 1.2;
             margin-bottom: 0.5rem;
         }
 
-        button, input, select { font: inherit; color: inherit; }
-        a { color: inherit; text-decoration: none; }
+        button,
+        input,
+        select {
+            font: inherit;
+            color: inherit;
+        }
 
-        .mono { font-family: Consolas, monospace; }
-        .muted { color: var(--muted); }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .mono {
+            font-family: Consolas, monospace;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
 
         .page {
             width: min(1280px, calc(100% - 32px));
@@ -54,7 +78,9 @@
         }
 
         body.gated .site-header,
-        body.gated .page { display: none; }
+        body.gated .page {
+            display: none;
+        }
 
         /* ---------- CONSENTIMIENTO ---------- */
         .gate {
@@ -64,7 +90,10 @@
             justify-content: center;
             padding: 32px 16px;
         }
-        body:not(.gated) .gate { display: none; }
+
+        body:not(.gated) .gate {
+            display: none;
+        }
 
         .gate-card {
             max-width: 680px;
@@ -73,7 +102,7 @@
             border: 1px solid var(--line);
             border-radius: 10px;
             padding: 36px 32px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
         }
 
         .gate-card .eyebrow {
@@ -157,7 +186,10 @@
             color: #fff;
             border-color: #4a2475;
         }
-        .btn.consulta:hover { background: #4a2475; }
+
+        .btn.consulta:hover {
+            background: #4a2475;
+        }
 
         .btn:disabled {
             opacity: 0.4;
@@ -284,11 +316,20 @@
             animation: fadeIn 0.4s ease;
         }
 
-        .section.active { display: block; }
+        .section.active {
+            display: block;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ---------- PANEL ---------- */
@@ -296,7 +337,7 @@
             border: 1px solid var(--line);
             border-radius: 10px;
             background: var(--surface);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
             overflow: hidden;
             margin-bottom: 24px;
         }
@@ -313,9 +354,19 @@
             color: white;
         }
 
-        .panel-head h2 { font-size: 1.35rem; margin-bottom: 4px; }
-        .panel-head p { opacity: 0.9; font-size: 0.95rem; }
-        .panel-body { padding: 24px; }
+        .panel-head h2 {
+            font-size: 1.35rem;
+            margin-bottom: 4px;
+        }
+
+        .panel-head p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .panel-body {
+            padding: 24px;
+        }
 
         /* ---------- MÓDULOS - VISOR ---------- */
         .layout {
@@ -324,18 +375,25 @@
             gap: 16px;
             margin-top: 20px;
         }
-        .sidebar, .viewer {
+
+        .sidebar,
+        .viewer {
             border: 1px solid var(--line);
             border-radius: 8px;
             background: var(--surface);
             overflow: hidden;
         }
+
         .list-head {
             padding: 14px 16px;
             border-bottom: 1px solid var(--line);
             background: var(--clinica-tint);
         }
-        .list-head h3 { font-size: 0.95rem; }
+
+        .list-head h3 {
+            font-size: 0.95rem;
+        }
+
         .card-list {
             display: grid;
             gap: 1px;
@@ -343,6 +401,7 @@
             max-height: 600px;
             overflow-y: auto;
         }
+
         .card-item {
             display: grid;
             grid-template-columns: 60px 1fr;
@@ -354,9 +413,16 @@
             text-align: left;
             cursor: pointer;
         }
-        .card-item:hover, .card-item.active { background: #f2f8f7; }
-        .card-item.active { box-shadow: inset 3px 0 0 var(--teal); }
-        
+
+        .card-item:hover,
+        .card-item.active {
+            background: #f2f8f7;
+        }
+
+        .card-item.active {
+            box-shadow: inset 3px 0 0 var(--teal);
+        }
+
         /* ===== CUADRITOS DE LOS MÓDULOS (CORREGIDOS) ===== */
         .thumb {
             width: 60px;
@@ -370,12 +436,21 @@
             font-weight: bold;
             font-size: 18px;
             font-family: Arial, sans-serif;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
             flex-shrink: 0;
         }
-        
-        .card-item h4 { font-size: 0.92rem; margin-bottom: 4px; }
-        .card-item p { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+
+        .card-item h4 {
+            font-size: 0.92rem;
+            margin-bottom: 4px;
+        }
+
+        .card-item p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
         .viewer-head {
             padding: 13px 16px;
             border-bottom: 1px solid var(--line);
@@ -386,8 +461,18 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-        .preview { background: #f6f8f8; min-height: 550px; }
-        .preview iframe { width: 100%; height: min(700px, 80vh); border: 0; display: block; }
+
+        .preview {
+            background: #f6f8f8;
+            min-height: 550px;
+        }
+
+        .preview iframe {
+            width: 100%;
+            height: min(700px, 80vh);
+            border: 0;
+            display: block;
+        }
 
         /* ---------- APARTADOS ---------- */
         .resource-grid {
@@ -396,6 +481,7 @@
             gap: 16px;
             margin-top: 20px;
         }
+
         .resource-card {
             border: 1px solid var(--line);
             border-radius: 10px;
@@ -405,11 +491,13 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
+
         .resource-card:hover {
             border-color: var(--apartado);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(147,96,31,0.1);
+            box-shadow: 0 4px 12px rgba(147, 96, 31, 0.1);
         }
+
         .resource-code {
             font-family: Consolas, monospace;
             font-size: 0.75rem;
@@ -418,8 +506,17 @@
             margin-bottom: 8px;
             font-weight: 600;
         }
-        .resource-card h4 { font-size: 1rem; margin-bottom: 6px; }
-        .resource-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+
+        .resource-card h4 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .resource-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
 
         /* ---------- CONSULTA ---------- */
         .consulta-card {
@@ -432,12 +529,18 @@
             transition: all 0.2s ease;
             margin-top: 20px;
         }
+
         .consulta-card:hover {
             border-color: var(--consulta);
             transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(91,44,145,0.15);
+            box-shadow: 0 6px 16px rgba(91, 44, 145, 0.15);
         }
-        .consulta-card h3 { color: var(--consulta); font-size: 1.1rem; margin-bottom: 8px; }
+
+        .consulta-card h3 {
+            color: var(--consulta);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
 
         /* ---------- FICHA ---------- */
         .profile-grid {
@@ -448,14 +551,21 @@
             padding-bottom: 24px;
             border-bottom: 1px dashed var(--line);
         }
-        .field { display: grid; gap: 6px; }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
         .field label {
             font-size: 0.8rem;
             font-weight: 600;
             color: var(--muted);
             text-transform: uppercase;
         }
-        .field input, .field select {
+
+        .field input,
+        .field select {
             min-height: 44px;
             border: 1px solid var(--line);
             border-radius: 6px;
@@ -464,7 +574,12 @@
         }
 
         /* ---------- CUESTIONARIO ---------- */
-        .quiz-grid { display: grid; gap: 16px; margin-top: 20px; }
+        .quiz-grid {
+            display: grid;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
         .question {
             border: 1px solid var(--line);
             border-radius: 10px;
@@ -473,11 +588,19 @@
 
         /* ---------- RESPONSIVO ---------- */
         @media (max-width: 1024px) {
-            .profile-grid { grid-template-columns: repeat(2, 1fr); }
-            .layout { grid-template-columns: 1fr; }
+            .profile-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
         }
+
         @media (max-width: 640px) {
-            .profile-grid { grid-template-columns: 1fr; }
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -489,9 +612,13 @@
         <div class="gate-card">
             <p class="eyebrow">HGZ No. 11 Xalapa</p>
             <h1>Bienvenido(a) a SUIT-IAAS</h1>
-            <p>Esta intervención educativa digital tiene como finalidad fortalecer el conocimiento del personal de enfermería sobre la prevención de las Infecciones Asociadas a la Asistencia Sanitaria (IAAS) en pacientes menores de un año.</p>
-            <p>Consta de cuestionario inicial, módulos educativos, apartados de consulta, recursos de apoyo y cuestionario final.</p>
-            <p><strong>Su participación es voluntaria.</strong> La información se maneja de forma confidencial y solo con fines de investigación y mejora de la práctica clínica.</p>
+            <p>Esta intervención educativa digital tiene como finalidad fortalecer el conocimiento del personal de
+                enfermería sobre la prevención de las Infecciones Asociadas a la Asistencia Sanitaria (IAAS) en
+                pacientes menores de un año.</p>
+            <p>Consta de cuestionario inicial, módulos educativos, apartados de consulta, recursos de apoyo y
+                cuestionario final.</p>
+            <p><strong>Su participación es voluntaria.</strong> La información se maneja de forma confidencial y solo
+                con fines de investigación y mejora de la práctica clínica.</p>
 
             <div class="gate-consent">
                 <label class="consent-row">
@@ -512,8 +639,9 @@
         <div class="page brand-row">
             <div class="brand">
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                    <circle cx="15" cy="15" r="14" stroke="#0d6e63" stroke-width="1.4"/>
-                    <path d="M5 15h4l2-6 3 11 2.5-8 1.5 3h7" stroke="#0d6e63" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                    <circle cx="15" cy="15" r="14" stroke="#0d6e63" stroke-width="1.4" />
+                    <path d="M5 15h4l2-6 3 11 2.5-8 1.5 3h7" stroke="#0d6e63" stroke-width="1.6" fill="none"
+                        stroke-linecap="round" />
                 </svg>
                 <div class="brand-text">
                     <strong>SUIT-IAAS</strong>
@@ -552,7 +680,9 @@
                 </div>
                 <div class="panel-body">
                     <p style="font-size:1.05rem; line-height:1.7;">
-                        Bienvenido(a). Esta plataforma contiene materiales educativos organizados en <strong>cinco módulos</strong>, <strong>cinco apartados de consulta</strong> y <strong>recursos de apoyo</strong>.
+                        Bienvenido(a). Esta plataforma contiene materiales educativos organizados en <strong>cinco
+                            módulos</strong>, <strong>cinco apartados de consulta</strong> y <strong>recursos de
+                            apoyo</strong>.
                     </p>
                     <ul style="font-size:1rem; line-height:1.8; margin:16px 0;">
                         <li>📝 <strong>Pre-Test:</strong> Cuestionario inicial de conocimientos</li>
@@ -630,11 +760,14 @@
                     </div>
 
                     <div class="quiz-grid">
-                        <p style="color:var(--muted); font-style:italic;">Las preguntas del cuestionario se integrarán aquí.</p>
+                        <p style="color:var(--muted); font-style:italic;">Las preguntas del cuestionario se integrarán
+                            aquí.</p>
                     </div>
 
                     <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
-                        <button class="btn primary" onclick="alert('✅ Pre-Test guardado. Ahora revise los módulos.'); switchTab('modulesSection')">Guardar y continuar →</button>
+                        <button class="btn primary"
+                            onclick="alert('✅ Pre-Test guardado. Ahora revise los módulos.'); switchTab('modulesSection')">Guardar
+                            y continuar →</button>
                     </div>
                 </div>
             </div>
@@ -656,35 +789,48 @@
                                 <h3>Lista de Módulos</h3>
                             </div>
                             <div class="card-list">
-                                <button class="card-item active" data-html="modulo-1/index.html" data-title="Módulo 1 · Lavado de Manos">
+                                <button class="card-item active" data-html="modulo-1/presentacion.html"
+                                    data-pdf="modulo-1/higiene-manos-control-neonatal.pdf"
+                                    data-video="modulo-1/video-modulo-1-iaas.mp4"
+                                    data-title="Módulo 1 · Lavado de Manos">
                                     <div class="thumb">M1</div>
                                     <div>
                                         <h4>Lavado de Manos</h4>
                                         <p>Técnica y momentos clave</p>
                                     </div>
                                 </button>
-                                <button class="card-item" data-html="modulo-2/index.html" data-title="Módulo 2 · Infección del Torrente Sanguíneo">
+                                <button class="card-item" data-html="modulo-2/presentacion.html"
+                                    data-pdf="modulo-2/bacteriemia-patogenesis-neonatal.pdf"
+                                    data-video="modulo-2/video-modulo-2-its.mp4"
+                                    data-title="Módulo 2 · Infección del Torrente Sanguíneo">
                                     <div class="thumb">M2</div>
                                     <div>
                                         <h4>Infección del Torrente Sanguíneo</h4>
                                         <p>Relacionada a catéter central</p>
                                     </div>
                                 </button>
-                                <button class="card-item" data-html="modulo-3/index.html" data-title="Módulo 3 · Neumonía Asociada al Ventilador">
+                                <button class="card-item" data-html="modulo-3/presentacion.html"
+                                    data-pdf="modulo-3/prevencion-nav-biofilm.pdf"
+                                    data-video="modulo-3/video-modulo-3-nav.mp4"
+                                    data-title="Módulo 3 · Neumonía Asociada al Ventilador">
                                     <div class="thumb">M3</div>
                                     <div>
                                         <h4>Neumonía Asociada al Ventilador</h4>
                                         <p>Prevención y cuidados</p>
                                     </div>
                                 </button>
-                                <button class="card-item" data-html="modulo-4/index.html" data-title="Módulo 4 · Infección de Herida Quirúrgica">
+                                <button class="card-item" data-html="modulo-4/presentacion.html" data-pdf=""
+                                    data-video="modulo-4/video-modulo-4-isq.mp4"
+                                    data-title="Módulo 4 · Infección de Herida Quirúrgica">
                                     <div class="thumb">M4</div>
                                     <div>
                                         <h4>Infección de Herida Quirúrgica</h4>
                                         <p>Cuidados y vigilancia</p>
                                     </div>
                                 </button>
-                                <button class="card-item" data-html="modulo-5/index.html" data-title="Módulo 5 · Infección de Vías Urinarias por Catéter">
+                                <button class="card-item" data-html="modulo-5/presentacion.html" data-pdf=""
+                                    data-video="modulo-5/video-modulo-5-itu.mp4"
+                                    data-title="Módulo 5 · Infección de Vías Urinarias por Catéter">
                                     <div class="thumb">M5</div>
                                     <div>
                                         <h4>Infección de Vías Urinarias</h4>
@@ -700,15 +846,28 @@
                                     <h4 id="viewerTitle">Módulo 1 · Lavado de Manos</h4>
                                     <small class="muted">Contenido del módulo</small>
                                 </div>
+                                <div style="display:flex; gap:8px;">
+                                    <button class="btn" id="btnShowHtml"
+                                        style="min-height:32px; padding:0 12px; font-size:0.8rem;">📄 Lectura</button>
+                                    <button class="btn" id="btnShowVideo"
+                                        style="min-height:32px; padding:0 12px; font-size:0.8rem;">📹 Video</button>
+                                    <button class="btn" id="btnShowPdf"
+                                        style="min-height:32px; padding:0 12px; font-size:0.8rem;">📥 Guía PDF</button>
+                                </div>
                             </div>
-                            <div class="preview">
-                                <iframe id="moduleViewer" src="modulo-1/index.html" title="Contenido del módulo"></iframe>
+                            <div class="preview" id="viewerContainer">
+                                <iframe id="moduleViewer" src="modulo-1/respuestas.html"
+                                    title="Contenido del módulo"></iframe>
+                                <video id="moduleVideo"
+                                    style="display:none; width:100%; height:min(700px, 80vh); background:black;"
+                                    controls></video>
                             </div>
                         </div>
                     </div>
 
                     <div style="margin-top:24px;">
-                        <button class="btn primary" onclick="switchTab('apartadosSection')">Consultar Apartados →</button>
+                        <button class="btn primary" onclick="switchTab('apartadosSection')">Consultar Apartados
+                            →</button>
                     </div>
                 </div>
             </div>
@@ -752,7 +911,8 @@
                         </a>
                     </div>
                     <div style="margin-top:28px;">
-                        <button class="btn primary" onclick="switchTab('consultaSection')">Ir a Consulta de Fármacos →</button>
+                        <button class="btn primary" onclick="switchTab('consultaSection')">Ir a Consulta de Fármacos
+                            →</button>
                     </div>
                 </div>
             </div>
@@ -768,12 +928,29 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <p style="margin-bottom:16px;">Aquí puede consultar información sobre fármacos, dosis, presentaciones y otros recursos de apoyo clínico.</p>
-                    
-                    <a href="farmacos/index.html" target="_blank" class="consulta-card">
-                        <h3>💊 Abrir Guía de Fármacos y Recursos</h3>
-                        <p>Información sobre medicamentos, dosis, vías de administración y más</p>
-                    </a>
+                    <p style="margin-bottom:16px;">Aquí puede consultar información sobre fármacos, dosis,
+                        presentaciones y otros recursos de apoyo clínico.</p>
+
+                    <div class="resource-grid" style="margin-bottom: 24px;">
+                        <a href="farmacos/TABLA 2024 CONCENTRACIÓN MÁXIMA RECOMENDADA PARA FÁRMACOS EN INFUSIÓN INTRAVENOSA EN NEONATOLOGÍA (1).pdf"
+                            target="_blank" class="resource-card" style="background: var(--consulta-tint);">
+                            <span class="resource-code">C1 · PDF</span>
+                            <h4>💊 Concentraciones Máximas</h4>
+                            <p>Infusiones intravenosas en neonatología 2024</p>
+                        </a>
+                        <a href="farmacos/TABLA 2024 de medicamentos dosis en mg y mcg.pdf" target="_blank"
+                            class="resource-card" style="background: var(--consulta-tint);">
+                            <span class="resource-code">C2 · PDF</span>
+                            <h4>⚖️ Dosis en mg y mcg</h4>
+                            <p>Guía de dosificación actualizada 2024</p>
+                        </a>
+                        <a href="farmacos/TABLA MINI 2024 PARA IMPRIMIR CONCENTRACION MAXIMA RECOMENDADA PARA FARMACOS EN NEONATOS.pdf"
+                            target="_blank" class="resource-card" style="background: var(--consulta-tint);">
+                            <span class="resource-code">C3 · PDF</span>
+                            <h4>🖨️ Versión de Bolsillo</h4>
+                            <p>Mini tabla para imprimir (Concentraciones)</p>
+                        </a>
+                    </div>
 
                     <div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;">
                         <button class="btn" onclick="switchTab('apartadosSection')">← Volver a Apartados</button>
@@ -794,10 +971,13 @@
                 </div>
                 <div class="panel-body">
                     <div class="quiz-grid">
-                        <p style="color:var(--muted); font-style:italic;">Las preguntas del cuestionario final se integrarán aquí.</p>
+                        <p style="color:var(--muted); font-style:italic;">Las preguntas del cuestionario final se
+                            integrarán aquí.</p>
                     </div>
                     <div style="margin-top:24px;">
-                        <button class="btn primary" onclick="alert('✅ Post-Test enviado. ¡Gracias por participar!'); switchTab('coverSection')">Enviar respuestas y finalizar ✅</button>
+                        <button class="btn primary"
+                            onclick="alert('✅ Post-Test enviado. ¡Gracias por participar!'); switchTab('coverSection')">Enviar
+                            respuestas y finalizar ✅</button>
                     </div>
                 </div>
             </div>
@@ -834,10 +1014,10 @@
             tabs.forEach(t => {
                 if (t.dataset.section === sectionId) t.classList.add('active');
             });
-            const order = ['coverSection','preSection','modulesSection','apartadosSection','consultaSection','postSection'];
+            const order = ['coverSection', 'preSection', 'modulesSection', 'apartadosSection', 'consultaSection', 'postSection'];
             const idx = order.indexOf(sectionId);
-            if(idx !== -1) actualizarProgreso(Math.round((idx/(order.length-1))*100));
-            window.scrollTo({top:0, behavior:'smooth'});
+            if (idx !== -1) actualizarProgreso(Math.round((idx / (order.length - 1)) * 100));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         tabs.forEach(tab => {
@@ -847,24 +1027,66 @@
         // ---------- VISOR DE MÓDULOS ----------
         const moduleButtons = document.querySelectorAll('.card-item');
         const viewerFrame = document.getElementById('moduleViewer');
+        const viewerVideo = document.getElementById('moduleVideo');
         const viewerTitle = document.getElementById('viewerTitle');
+
+        const btnHtml = document.getElementById('btnShowHtml');
+        const btnVideo = document.getElementById('btnShowVideo');
+        const btnPdf = document.getElementById('btnShowPdf');
+
+        let currentData = {
+            html: 'modulo-1/respuestas.html',
+            video: 'modulo-1/video-modulo-1-iaas.mp4',
+            pdf: 'modulo-1/higiene-manos-control-neonatal.pdf'
+        };
+
+        function updateView(type) {
+            viewerFrame.style.display = 'none';
+            viewerVideo.style.display = 'none';
+            viewerVideo.pause();
+
+            if (type === 'html') {
+                viewerFrame.style.display = 'block';
+                viewerFrame.src = currentData.html;
+            } else if (type === 'video') {
+                viewerVideo.style.display = 'block';
+                viewerVideo.src = currentData.video;
+            } else if (type === 'pdf') {
+                window.open(currentData.pdf, '_blank');
+            }
+        }
 
         moduleButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 moduleButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                if(viewerFrame) viewerFrame.src = btn.dataset.html;
-                if(viewerTitle) viewerTitle.textContent = btn.dataset.title;
+
+                currentData.html = btn.dataset.html;
+                currentData.video = btn.dataset.video;
+                currentData.pdf = btn.dataset.pdf;
+
+                if (viewerTitle) viewerTitle.textContent = btn.dataset.title;
+
+                // Actualizar visibilidad de botones según disponibilidad
+                btnVideo.style.display = currentData.video ? 'inline-flex' : 'none';
+                btnPdf.style.display = currentData.pdf ? 'inline-flex' : 'none';
+
+                updateView('html');
             });
         });
+
+        btnHtml.addEventListener('click', () => updateView('html'));
+        btnVideo.addEventListener('click', () => updateView('video'));
+        btnPdf.addEventListener('click', () => updateView('pdf'));
 
         // ---------- BARRA DE PROGRESO ----------
         function actualizarProgreso(porcentaje) {
             const bar = document.getElementById('progressBar');
             const pct = document.getElementById('progressPct');
-            if(bar) bar.style.width = porcentaje + '%';
-            if(pct) pct.textContent = porcentaje + '%';
+            if (bar) bar.style.width = porcentaje + '%';
+            if (pct) pct.textContent = porcentaje + '%';
         }
     </script>
 </body>
+
 </html>

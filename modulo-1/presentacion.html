@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo I: Higiene de Manos en el Entorno Neonatal</title>
+    <style>
+        :root {
+            --primary-color: #0d6e63;
+            --secondary-color: #094f47;
+            --accent-color: #1f7a4d;
+            --accent-light: #eef3f2;
+            --text-color: #12232c;
+            --bg-color: #f8fafc;
+            --warning-bg: #fff1f2;
+            --warning-border: #f43f5e;
+            --warning-text: #9f1239;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #0f172a;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+        }
+
+        .presentation-wrapper {
+            position: relative;
+            width: min(1024px, calc(100vw - 16px));
+            aspect-ratio: 16 / 9;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease;
+            background: #ffffff;
+            overflow-y: auto;
+        }
+
+        .slide.active { opacity: 1; visibility: visible; }
+
+        .slide-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 10px;
+        }
+
+        .slide-header h2 { color: var(--primary-color); font-size: 1.25rem; }
+        .module-tag {
+            background-color: var(--accent-light); color: var(--primary-color);
+            padding: 3px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700;
+        }
+
+        .slide-content { flex-grow: 1; display: flex; flex-direction: column; font-size: 0.95rem; line-height: 1.4; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
+        .card { background: var(--bg-color); border-left: 4px solid var(--primary-color); padding: 12px; border-radius: 0 8px 8px 0; }
+        .card h3 { font-size: 1rem; margin-bottom: 6px; color: var(--secondary-color); }
+        
+        .custom-list { list-style: none; padding-top: 8px; }
+        .custom-list li { position: relative; padding-left: 20px; margin-bottom: 6px; }
+        .custom-list li::before { content: "✓"; position: absolute; left: 0; color: var(--accent-color); font-weight: bold; }
+
+        .controls { margin-top: 16px; display: flex; gap: 16px; align-items: center; }
+        .btn { background: var(--secondary-color); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .counter { color: white; }
+    </style>
+</head>
+<body>
+    <div class="presentation-wrapper">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="slide-header">
+                <h2><span>Módulo I</span> — Higiene de Manos</h2>
+                <div class="module-tag">Prevención de IAAS</div>
+            </div>
+            <div class="slide-content" style="justify-content: center; text-align: center;">
+                <h1 style="color: var(--primary-color); margin-bottom: 16px;">La Higiene de Manos como Pilar Preventivo</h1>
+                <p>La medida más sencilla y efectiva para interrumpir la cadena de transmisión de microorganismos en la Unidad de Cuidados Intensivos Neonatales.</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🎯 Objetivo</h3>
+                        <p>Eliminar la flora transitoria y reducir la flora residente para prevenir la transmisión cruzada.</p>
+                    </div>
+                    <div class="card">
+                        <h3>👶 Impacto Neonatal</h3>
+                        <p>Protección directa a pacientes con barreras cutáneas inmaduras y sistemas inmunes en desarrollo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Los 5 Momentos de la Higiene de Manos</h2>
+                <div class="module-tag">Módulo I</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Antes del contacto</h3>
+                        <ul class="custom-list">
+                            <li><strong>Momento 1:</strong> Antes de tocar al paciente.</li>
+                            <li><strong>Momento 2:</strong> Antes de realizar una tarea aséptica (ej. manipular catéter).</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Después del contacto</h3>
+                        <ul class="custom-list">
+                            <li><strong>Momento 3:</strong> Después del riesgo de exposición a líquidos corporales.</li>
+                            <li><strong>Momento 4:</strong> Después de tocar al paciente.</li>
+                            <li><strong>Momento 5:</strong> Después del contacto con el entorno del paciente.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Técnica Correcta: Fricción vs Lavado</h2>
+                <div class="module-tag">Módulo I</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🧼 Lavado con Agua y Jabón</h3>
+                        <p>Duración: 40-60 segundos.</p>
+                        <ul class="custom-list">
+                            <li>Cuando las manos están visiblemente sucias.</li>
+                            <li>Después de ir al baño.</li>
+                            <li>Ante sospecha de esporas (Clostridium difficile).</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>✨ Fricción con Alcohol Gel</h3>
+                        <p>Duración: 20-30 segundos.</p>
+                        <ul class="custom-list">
+                            <li>Técnica preferida para la higiene de rutina.</li>
+                            <li>Más rápida y accesible a pie de cuna.</li>
+                            <li>Menos irritante para la piel si contiene emolientes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="changeSlide(-1)">⬅ Anterior</button>
+        <span class="counter" id="slideCounter">1 / 3</span>
+        <button class="btn" onclick="changeSlide(1)">Siguiente ➡</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        function showSlide(index) {
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+            slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
+        }
+        function changeSlide(n) { showSlide(currentSlide + n); }
+    </script>
+</body>
+</html>
