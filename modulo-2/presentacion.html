@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo II: Bacteriemia y Patogénesis — Dispositivos Intravasculares en la UCIN</title>
+    <style>
+        :root {
+            --primary-color: #0b2545;
+            --secondary-color: #134074;
+            --accent-color: #06b6d4;
+            --accent-light: #ecfeff;
+            --text-color: #1e293b;
+            --bg-color: #f8fafc;
+            --warning-bg: #fff1f2;
+            --warning-border: #f43f5e;
+            --warning-text: #9f1239;
+            --success-bg: #f0fdf4;
+            --success-border: #22c55e;
+            --success-text: #166534;
+            --purple: #7c3aed;
+            --purple-light: #f3e8ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #0f172a;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            overflow: auto;
+            padding: 12px 8px;
+        }
+
+        .presentation-wrapper {
+            position: relative;
+            width: min(1024px, calc(100vw - 16px));
+            aspect-ratio: 16 / 9;
+            height: auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            background: #ffffff;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            min-height: 40px;
+        }
+
+        .slide-header h2 {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .slide-header h2 span {
+            color: var(--accent-color);
+            font-weight: 800;
+        }
+
+        .module-tag {
+            background-color: var(--accent-light);
+            color: var(--accent-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .slide-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--bg-color);
+            border-left: 4px solid var(--secondary-color);
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card.accent {
+            border-left-color: var(--accent-color);
+            background: var(--accent-light);
+        }
+
+        .card.purple {
+            border-left-color: var(--purple);
+            background: var(--purple-light);
+        }
+
+        .card.success {
+            border-left-color: var(--success-border);
+            background: var(--success-bg);
+        }
+
+        .card.warning {
+            border-left-color: var(--warning-border);
+            background: var(--warning-bg);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        p {
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        strong {
+            color: var(--primary-color);
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        .formula-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0369a1;
+        }
+
+        .alert-box {
+            background-color: var(--warning-bg);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            border-left: 4px solid var(--warning-border);
+            color: var(--warning-text);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 0.8rem;
+        }
+
+        .success-box {
+            background-color: var(--success-bg);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-left: 4px solid var(--success-border);
+            color: var(--success-text);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 0.8rem;
+        }
+
+        .custom-list {
+            list-style: none;
+        }
+
+        .custom-list li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .custom-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1rem;
+            top: -1px;
+        }
+
+        .table-container {
+            max-height: 220px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-align: left;
+            padding: 7px 9px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 6px 9px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            color: #334155;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background-color: var(--bg-color);
+        }
+
+        .badge-info {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        .badge-alert {
+            background-color: #ffe4e6;
+            color: #b91c1c;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 6px;
+            margin-top: 8px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            min-height: 24px;
+        }
+
+        .logo-placeholder {
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .phase-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .phase-col {
+            flex: 1;
+            min-width: 160px;
+            background: var(--bg-color);
+            border-top: 3px solid var(--secondary-color);
+            padding: 10px 12px;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .phase-col.accent {
+            border-top-color: var(--accent-color);
+            background: var(--accent-light);
+        }
+
+        .phase-col.success {
+            border-top-color: var(--success-border);
+            background: var(--success-bg);
+        }
+
+        .phase-col h4 {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .phase-col ul {
+            padding-left: 16px;
+            font-size: 0.78rem;
+        }
+
+        .phase-col ul li {
+            margin-bottom: 3px;
+            color: #475569;
+        }
+
+        .table-bundle td:first-child {
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+
+        .controls {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .counter {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .keyboard-hint {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-wrapper">
+
+        <!-- === DIAPOSITIVA 1: Título y Presentación === -->
+        <div class="slide active">
+            <div class="slide-header">
+                <h2><span>Módulo II</span> — Bacteriemia y Patogénesis</h2>
+                <div class="module-tag">Dispositivos Intravasculares</div>
+            </div>
+            <div class="slide-content" style="justify-content: center; text-align: center;">
+                <h1 style="font-size: 1.8rem; color: var(--primary-color); margin-bottom: 12px;">La "Bacteria Morada" en la UCIN</h1>
+                <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">El torrente sanguíneo como objetivo estratégico del patógeno: puertas de entrada, mecanismos de evasión y prevención.</p>
+                
+                <div class="grid-2" style="margin-top: 20px; text-align: left;">
+                    <div class="card purple">
+                        <h3>🔓 Puerta de Entrada Preferencial</h3>
+                        <p><strong>Vía Directa:</strong> Superficie y trayecto de catéteres.</p>
+                        <p><strong>Foco Crítico:</strong> Onfaloclisis y catéteres PICC.</p>
+                        <p><strong>Impacto:</strong> Alta tasa de replicación tras vulnerar el torrente circulatorio.</p>
+                    </div>
+                    <div class="card accent">
+                        <h3>🛡️ Evasión de Barreras</h3>
+                        <p>La "Bacteria Morada" <em>evade la barrera cutánea inmadura</em> del neonato.</p>
+                        <ul class="custom-list">
+                            <li>Piel más delgada, menos queratinizada</li>
+                            <li>Menos producción de ácidos grasos protectores</li>
+                            <li>Escasez de inmunoglobulinas locales (IgA)</li>
+                            <li>Mayor permeabilidad a microorganismos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 1/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 2: Fisiopatología — Las 4 Fases === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>2.</span> Fisiopatología de la Invasión: Las 4 Fases de Colonización</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <p>Procesos de colonización endoluminal y soporte metabólico que transforma el catéter en un foco séptico.</p>
+                
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>1. Adhesión</h3>
+                        <p>Proteínas especializadas se fijan a los <strong>polímeros plásticos</strong> del catéter.</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. Biofilm</h3>
+                        <p>Formación de <strong>microcolonias y secreción de matriz protectora</strong> densa que aísla a la bacteria del sistema inmune y los antibióticos.</p>
+                    </div>
+                    <div class="card accent">
+                        <h3>3. Nutrición — El Rol de la NPT</h3>
+                        <p>La Nutrición Parenteral Total ofrece el <strong>sustrato metabólico ideal</strong>: lípidos y azúcares aceleran exponencialmente el crecimiento del inóculo bacteriano.</p>
+                        <p style="font-size:0.85rem;"><em>Sin técnica aséptica rigurosa, cada ml de infusión se convierte en un vehículo de proliferación.</em></p>
+                    </div>
+                    <div class="card">
+                        <h3>4. Migración</h3>
+                        <p>Multiplicación y <strong>paso franco hacia el torrente circulatorio</strong>. La progresión desde la colonización local hasta el choque séptico puede ocurrir en cuestión de horas.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 2/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 3: Matriz de Vulnerabilidad === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>3.</span> Matriz de Vulnerabilidad</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🔴 Factores Intrínsecos — El Huésped</h3>
+                        <ul class="custom-list">
+                            <li><strong>Peso menor a 1,500 gramos</strong> — barreras tisulares incompletas</li>
+                            <li><strong>Prematuridad extrema</strong> — sistema inmunitario en desarrollo</li>
+                            <li><strong>Carencia de Inmunoglobulinas locales</strong> — menos IgA en piel y mucosas</li>
+                            <li>Disminución de células de defensa en sangre</li>
+                            <li>Mayor permeabilidad intestinal y cutánea</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3>🟠 Factores Extrínsecos — El Entorno</h3>
+                        <ul class="custom-list">
+                            <li><strong>Onfaloclisis prolongada</strong> — puerta abierta directa al sistema venoso</li>
+                            <li><strong>Permanencia de PICC</strong> — cada día extra = +8% riesgo de biofilm</li>
+                            <li><strong>Fallas en protocolos de mantenimiento</strong> — desconexiones, manipulaciones, circuito abierto</li>
+                            <li>Uso de NPT sin ambiente controlado</li>
+                            <li>Reutilización o técnica inadecuada</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert-box">
+                    <strong>Evolución del Riesgo Sistémico:</strong> La progresión desde la colonización local hasta el choque séptico puede ocurrir en cuestión de pocas horas ante una invasión masiva. El neonato no tiene reservas defensivas.
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 3/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 4: Calibres según Peso === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>4.</span> Selección: Calibres según Peso y Tipo de Catéter</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <p><strong>Principio rector:</strong> Usar el calibre más pequeño que permita el flujo necesario → reduce trauma, disminuye trombosis y facilita el flujo sanguíneo alrededor.</p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Peso del Paciente</th>
+                                <th>Catéter Umbilical</th>
+                                <th>PICC</th>
+                                <th>Periférico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>&lt; 1,000 g</strong><br/>Prematuro extremo</td>
+                                <td>3.5 Fr — Vena<br/>4 Fr — Arteria</td>
+                                <td>1.9 Fr o 2 Fr<br/>Silicona o poliuretano</td>
+                                <td>24–26 G<br/>Teflón o silicona</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1,000 – 1,500 g</strong></td>
+                                <td>3.5 – 5 Fr — Vena<br/>4 – 5 Fr — Arteria</td>
+                                <td>2 Fr o 2.5 Fr</td>
+                                <td>24 G</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1,500 – 2,500 g</strong></td>
+                                <td>5 Fr — Vena<br/>5 Fr — Arteria</td>
+                                <td>2.5 Fr o 3 Fr</td>
+                                <td>23 – 24 G</td>
+                            </tr>
+                            <tr>
+                                <td><strong>&gt; 2,500 g / Término</strong></td>
+                                <td>5 – 7 Fr — Vena<br/>5 Fr — Arteria</td>
+                                <td>3 Fr o 4 Fr</td>
+                                <td>22 – 24 G</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid-2" style="margin-top: 8px;">
+                    <div class="card success">
+                        <h3>Material Recomendado</h3>
+                        <ul class="custom-list">
+                            <li><strong>Silicona:</strong> Más suave, menos trombogénica — ideal para NPT y medicamentos vesicantes</li>
+                            <li><strong>Poliuretano:</strong> Más firme al insertar, se ablanda en cuerpo</li>
+                            <li><strong>Evitar:</strong> Polietileno rígido → mayor daño vascular</li>
+                        </ul>
+                    </div>
+                    <div class="card warning">
+                        <h3>Duración Máxima Sugerida</h3>
+                        <ul class="custom-list">
+                            <li><strong>Umbilical:</strong> Vena ≤ 7 días · Arteria ≤ 5 días</li>
+                            <li><strong>PICC:</strong> Hasta 30–60 días si no hay complicaciones</li>
+                            <li><strong>Periférico:</strong> 24–48 h máximo en neonato</li>
+                            <li><strong>Reevaluación diaria obligatoria</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 4/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 5: Fórmulas de Medición === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>5.</span> Fórmulas: Calcular cuánto introducir</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🔹 Catéter Umbilical</h3>
+                        <p>Medir desde el <strong>centro del ombligo</strong> hasta el punto de inserción deseado + 1–2 cm que queda fuera.</p>
+                        
+                        <div class="formula-box">
+                            <div class="formula-text">Vena: Altura (cm) ÷ 3</div>
+                            <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">Ejemplo: 45 cm ÷ 3 = 15 cm a introducir</div>
+                        </div>
+                        
+                        <div class="formula-box">
+                            <div class="formula-text">Arteria: (Altura ÷ 3) + 2 cm</div>
+                            <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">Ejemplo: 45 ÷ 3 + 2 = 17 cm</div>
+                        </div>
+
+                        <p style="margin-top:6px; font-size:0.8rem;"><strong>Posición correcta:</strong> Vena → vena cava inferior (T8–T10). Arteria → aorta descendente.</p>
+                    </div>
+
+                    <div class="card accent">
+                        <h3>🔹 PICC (Vena del brazo)</h3>
+                        <p>Medir desde el <strong>punto de inserción</strong> → hombro → ángulo esternal derecho.</p>
+                        
+                        <div class="formula-box">
+                            <div class="formula-text">Medición externa directa</div>
+                            <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">Marcar con cinta el trayecto antes de introducir</div>
+                        </div>
+
+                        <p style="margin-top:6px; font-size:0.8rem;"><strong>Posición objetivo:</strong> Unión vena cava superior → aurícula derecha. Confirmar con RX torácica.</p>
+                        
+                        <div class="alert-box" style="padding:6px 8px; font-size:0.75rem; margin-top:6px;">
+                            ⚠️ No introducir a ciegas. Siempre confirmar posición con estudio de imagen antes de infundir NPT o vesicantes.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:10px;">
+                    <h3>🔹 Catéter Periférico</h3>
+                    <ul class="custom-list">
+                        <li><strong>Longitud fija:</strong> 19–25 mm en la mayoría de dispositivos pediátricos</li>
+                        <li><strong>Regla práctica:</strong> Introducir todo el dispositivo plástico, retirar el mandril metálico 1–2 mm antes de avanzar completamente</li>
+                        <li><strong>Confirmación:</strong> Retorno de sangre + suero fluye libre sin inflar vena</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 5/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 6: Procedimiento — Catéter Umbilical === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>6.</span> Procedimiento: Catéter Umbilical</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Indicaciones</h3>
+                        <ul class="custom-list">
+                            <li>Acceso vascular urgente en recién nacido ≤ 7 días</li>
+                            <li>Administración de líquidos, medicamentos, NPT, hemoderivados</li>
+                            <li>Monitoreo hemodinámico (arterial) o toma de muestras frecuentes</li>
+                            <li>Reanimación o cirugía inmediata</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3>Técnica Resumida</h3>
+                        <ul class="custom-list">
+                            <li><strong>1.</strong> Posición: decúbito supino, abdomen descubierto</li>
+                            <li><strong>2.</strong> Antisepsia ombligo y pared con clorhexidina acuosa o yodo</li>
+                            <li><strong>3.</strong> Campo estéril completo, 2 asistentes mínimo</li>
+                            <li><strong>4.</strong> Identificar: 2 arterias (delgadas, espásticas) y 1 vena (gruesa, pared fina)</li>
+                            <li><strong>5.</strong> Introducir según fórmula calculada, instilar suero salino</li>
+                            <li><strong>6.</strong> Fijación en puente o "Y" sin tracción al ombligo</li>
+                            <li><strong>7.</strong> Confirmar posición con RX toracoabdominal</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-top:8px;">
+                    <div class="phase-col">
+                        <h4>⚠️ NO hacer</h4>
+                        <ul>
+                            <li>No forzar si hay resistencia</li>
+                            <li>No dejar ombligo descubierto</li>
+                            <li>No usar apósito oclusivo sobre muñón</li>
+                            <li>No pasar 7 días en vena / 5 en arteria</li>
+                        </ul>
+                    </div>
+                    <div class="phase-col accent">
+                        <h4>✅ Cuidados</h4>
+                        <ul>
+                            <li>Inspeccionar diariamente: enrojecimiento, secreción</li>
+                            <li>Cambiar fijación solo si está sucia o despegada</li>
+                            <li>Rotar suero cada 24 h, jeringas cada uso</li>
+                            <li>Pinzar antes de desconectar</li>
+                        </ul>
+                    </div>
+                    <div class="phase-col success">
+                        <h4>🔴 Retiro</h4>
+                        <ul>
+                            <li>Retirar tan pronto como exista acceso alternativo</li>
+                            <li>Retirar gradualmente en 2–3 cm/min</li>
+                            <li>Presión 5–10 min post-retiro</li>
+                            <li>Revisar 24 h por sangrado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 6/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 7: Procedimiento — PICC y Periférico === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>7.</span> Procedimiento: PICC y Catéter Periférico</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🔹 PICC — Central de Inserción Periférica</h3>
+                        <ul class="custom-list">
+                            <li><strong>Indicación:</strong> Terapia ≥ 7 días: NPT, antibióticos, vesicantes</li>
+                            <li><strong>Venas:</strong> Cefálica, basílica, antecubital — evitar mano</li>
+                            <li><strong>Técnica:</strong> Barrera máxima estéril completa</li>
+                            <li><strong>Confirmación:</strong> RX torácica obligatoria antes de NPT</li>
+                            <li><strong>Apósito:</strong> Cambio cada 7 días o si sucio/despegado</li>
+                            <li><strong>Lavado:</strong> Suero 1–2 mL antes y después de cada uso</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3>🔹 Catéter Periférico</h3>
+                        <ul class="custom-list">
+                            <li><strong>Indicación:</strong> Terapia corta ≤ 48 h, soluciones no vesicantes</li>
+                            <li><strong>Sitios:</strong> Mano, antebrazo, pie — evitar muñeca y pliegue</li>
+                            <li><strong>Calibre:</strong> 24 G ideal en prematuros, el más pequeño posible</li>
+                            <li><strong>Rotación:</strong> Cada 24–48 h, no esperar complicación</li>
+                            <li><strong>Revisión:</strong> Cada turno — enrojecimiento, calor, induración</li>
+                            <li><strong>Retiro:</strong> Si no se usa en 12–24 h o hay signos de flebitis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 7/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 8: Paquete de Prevención — Pilares de Enfermería === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>8.</span> Paquete de Prevención (Bundle) — Pilares de Enfermería</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <p>Basado en <strong>PROY-NOM-045-SSA-2026</strong> y Manual RHOVE. El cumplimiento al 100% reduce la incidencia de bacteriemia hasta en un 60%.</p>
+                
+                <div class="table-container">
+                    <table class="table-bundle">
+                        <thead>
+                            <tr>
+                                <th>Intervención Pilar</th>
+                                <th>Acción Específica</th>
+                                <th>Resultado Esperado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Higiene de Manos</td>
+                                <td>Previo a manipular cualquier conexión. Fricción con alcohol-gel 20–30 seg antes y después de cada contacto.</td>
+                                <td>Elimina la transmisión cruzada por manos contaminadas.</td>
+                            </tr>
+                            <tr>
+                                <td>Técnica Aséptica</td>
+                                <td>En inserción: campos, gorro, mascarilla, guantes. En curación: antiséptico, no tocar sitio.</td>
+                                <td>Previene la colonización del lumen y la superficie externa.</td>
+                            </tr>
+                            <tr>
+                                <td>Cuidado de la NPT</td>
+                                <td>Preparación en campana de flujo laminar o ambiente controlado. Cambio de tubuladura cada 24 h.</td>
+                                <td>Evita la contaminación del sustrato metabólico que alimenta a la bacteria.</td>
+                            </tr>
+                            <tr>
+                                <td>Vigilancia Diaria</td>
+                                <td>Revisión de integridad, fijación, enrojecimiento, flujo. ¿Sigue siendo necesario? Documentar.</td>
+                                <td>Detección temprana de fallas y retiro oportuno.</td>
+                            </tr>
+                            <tr>
+                                <td>Sistema Cerrado</td>
+                                <td>Minimizar desconexiones. Pinzar antes de elevar o cambiar posición. Puerto desinfectado 15 seg antes de cada uso.</td>
+                                <td>Bloquea la vía intraluminal de entrada de bacterias.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="success-box" style="margin-top: 10px; text-align: center;">
+                    "El cumplimiento eleva la calidad del cuidado." — Seguridad del Paciente Neonatal
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 8/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 9: Vigilancia y Signos de Alarma === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>9.</span> Vigilancia y Signos de Alarma</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Señales de Sospecha de Bacteriemia</h3>
+                        <ul class="custom-list">
+                            <li><strong>Temperatura:</strong> Fiebre o hipotermia sin causa aparente</li>
+                            <li><strong>Cardiorrespiratorio:</strong> Apneas, bradicardias, taquipnea, requerimiento de O₂</li>
+                            <li><strong>Digestivo:</strong> Aumento de residuos, distensión, intolerancia alimentaria</li>
+                            <li><strong>Sitio:</strong> Enrojecimiento, calor, induración, secreción purulenta o sangrado</li>
+                            <li><strong>Laboratorio:</strong> Leucocitosis, leucopenia, bandas >10%, trombocitopenia</li>
+                            <li><strong>Catéter:</strong> Pérdida de retorno, obstrucción, cambio en velocidad de infusión</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3>Acciones Inmediatas</h3>
+                        <ul class="custom-list">
+                            <li><strong>1.</strong> Evaluar si el catéter sigue siendo necesario → retirar si hay alternativa</li>
+                            <li><strong>2.</strong> Si hay signos locales + inestabilidad: <strong>retirar inmediatamente</strong></li>
+                            <li><strong>3.</strong> Cultivo de punta del catéter + 2 hemocultivos (uno periférico)</li>
+                            <li><strong>4.</strong> Iniciar antimicrobianos según guía local</li>
+                            <li><strong>5.</strong> Notificar a UVEH para registro en plataforma SEVEIAAS</li>
+                            <li><strong>6.</strong> Investigar causa: técnica, duración, manipulaciones, NPT</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 9/10</span>
+            </div>
+        </div>
+
+        <!-- === DIAPOSITIVA 10: Conclusión === -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>10.</span> Resumen Clave</h2>
+                <div class="module-tag">Módulo II</div>
+            </div>
+            <div class="slide-content" style="justify-content: center;">
+                <div class="grid-3">
+                    <div class="card purple" style="text-align:center;">
+                        <div style="font-size: 2rem; margin-bottom: 6px;">🔬</div>
+                        <h3>Conocer el Riesgo</h3>
+                        <p style="font-size:0.85rem;">El neonato tiene barreras defensivas incompletas. Cada dispositivo es una puerta abierta.</p>
+                    </div>
+                    <div class="card accent" style="text-align:center;">
+                        <div style="font-size: 2rem; margin-bottom: 6px;">📐</div>
+                        <h3>Calcular y Elegir Bien</h3>
+                        <p style="font-size:0.85rem;">Calibre mínimo, fórmula exacta, material adecuado = menos trauma y menos colonización.</p>
+                    </div>
+                    <div class="card success" style="text-align:center;">
+                        <div style="font-size: 2rem; margin-bottom: 6px;">⏰</div>
+                        <h3>Retirar Oportuno</h3>
+                        <p style="font-size:0.85rem;">La medida preventiva más efectiva: preguntar diariamente ¿aún lo necesitamos?</p>
+                    </div>
+                </div>
+
+                <div class="success-box" style="text-align: center; font-size: 0.95rem; margin-top: 16px;">
+                    💡 <strong>El mejor dispositivo es el que ya no está puesto.</strong><br/>
+                    Cada día sin justificación = 8% más riesgo de infección. El retiro oportuno salva vidas.
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">MÓDULO II · BACTERIEMIA Y PATOGÉNESIS</span>
+                <span>Diapo 10/10</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="prevBtn" onclick="changeSlide(-1)">⬅ Anterior</button>
+        <span class="counter" id="slideCounter">1 / 10</span>
+        <button class="btn" id="nextBtn" onclick="changeSlide(1)">Siguiente ➡</button>
+    </div>
+    <p class="keyboard-hint">Usa ← → del teclado para navegar</p>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            if (index >= totalSlides) currentSlide = 0;
+            else if (index < 0) currentSlide = totalSlides - 1;
+            else currentSlide = index;
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentSlide);
+            });
+
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+    </script>
+
+</body>
+</html>

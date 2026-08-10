@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo IV: Infecciones de Sitio Quirúrgico en la UCIN y Patogénesis de la Bacteria Fucsia</title>
+    <title>Módulo IV: Infecciones de Sitio Quirúrgico en la UCIN</title>
     <style>
         :root {
             --primary-color: #0b2545;
@@ -15,6 +15,12 @@
             --warning-bg: #fff1f2;
             --warning-border: #f43f5e;
             --warning-text: #9f1239;
+            --success-bg: #f0fdf4;
+            --success-border: #22c55e;
+            --success-text: #166534;
+            --info-bg: #eff6ff;
+            --info-border: #3b82f6;
+            --info-text: #1e40af;
         }
 
         * {
@@ -32,11 +38,9 @@
             align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
-            overflow: auto;
-            padding: 24px 12px;
+            padding: 20px 12px;
         }
 
-        /* Contenedor de la Presentación */
         .presentation-wrapper {
             position: relative;
             width: min(1024px, calc(100vw - 24px));
@@ -48,21 +52,20 @@
             overflow: hidden;
         }
 
-        /* Diapositivas */
         .slide {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 45px 60px;
+            padding: 35px 50px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.4s ease, visibility 0.4s ease;
             background: #ffffff;
+            overflow-y: auto;
         }
 
         .slide.active {
@@ -70,7 +73,6 @@
             visibility: visible;
         }
 
-        /* Línea estética superior */
         .slide::before {
             content: '';
             position: absolute;
@@ -81,19 +83,18 @@
             background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
         }
 
-        /* Encabezados */
         .slide-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 15px;
-            height: 60px;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
         }
 
         .slide-header h2 {
             color: var(--primary-color);
-            font-size: 1.8rem;
+            font-size: 1.45rem;
             font-weight: 700;
         }
 
@@ -105,86 +106,91 @@
         .module-tag {
             background-color: var(--accent-light);
             color: var(--accent-color);
-            padding: 4px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             border: 1px solid rgba(217, 70, 239, 0.3);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        /* Contenido Central */
         .slide-content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            font-size: 1.05rem;
-            line-height: 1.5;
-            padding: 10px 0;
+            font-size: 0.98rem;
+            line-height: 1.6;
         }
 
-        /* Estructuras de Diseño */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
             background: var(--bg-color);
             border-left: 4px solid var(--secondary-color);
-            padding: 15px 20px;
+            padding: 16px 20px;
             border-radius: 0 8px 8px 0;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .card.accent {
-            border-left-color: var(--accent-color);
-            background: var(--accent-light);
-        }
+        .card.accent { border-left-color: var(--accent-color); background: var(--accent-light); }
+        .card.success { border-left-color: var(--success-border); background: var(--success-bg); }
+        .card.info { border-left-color: var(--info-border); background: var(--info-bg); }
+        .card.warning { border-left-color: var(--warning-border); background: var(--warning-bg); }
 
         .card h3 {
             color: var(--primary-color);
-            font-size: 1.1rem;
-            margin-bottom: 6px;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
         }
 
         p {
             color: #475569;
             margin-bottom: 10px;
+            line-height: 1.6;
         }
 
-        p:last-child {
-            margin-bottom: 0;
-        }
+        strong { color: var(--primary-color); }
 
-        strong {
-            color: var(--primary-color);
-        }
-
-        /* Diagrama de Flujo */
         .pathway-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 15px 0 20px 0;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 18px 0;
             background: var(--bg-color);
-            padding: 15px;
+            padding: 16px;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
         }
 
         .pathway-step {
             flex: 1;
+            min-width: 90px;
             background: #ffffff;
             border: 2px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 12px 8px;
             text-align: center;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--secondary-color);
         }
 
@@ -194,377 +200,491 @@
             background: var(--accent-light);
         }
 
-        .pathway-arrow {
-            padding: 0 8px;
-            color: #94a3b8;
-            font-weight: bold;
+        .alert-box, .success-box, .info-box {
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin: 14px 0;
+            line-height: 1.6;
         }
 
-        /* Bloques de Alerta */
         .alert-box {
             background-color: var(--warning-bg);
-            border: 1px solid rgba(244, 63, 94, 0.2);
             border-left: 5px solid var(--warning-border);
             color: var(--warning-text);
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 15px;
-            font-size: 0.95rem;
         }
 
-        /* Listas */
-        .custom-list {
-            list-style: none;
+        .success-box {
+            background-color: var(--success-bg);
+            border-left: 5px solid var(--success-border);
+            color: var(--success-text);
         }
 
+        .info-box {
+            background-color: var(--info-bg);
+            border-left: 5px solid var(--info-border);
+            color: var(--info-text);
+        }
+
+        .custom-list { list-style: none; margin: 8px 0; }
         .custom-list li {
             position: relative;
-            padding-left: 20px;
+            padding-left: 22px;
             margin-bottom: 8px;
             font-size: 0.95rem;
             color: #475569;
         }
-
         .custom-list li::before {
-            content: "•";
+            content: "✓";
             position: absolute;
             left: 0;
             color: var(--accent-color);
             font-weight: bold;
-            font-size: 1.2rem;
-            top: -2px;
         }
 
-        /* Tablas */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 5px;
+        .table-wrapper {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 12px 0;
         }
 
+        .table-scroll {
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
         th {
             background-color: var(--primary-color);
             color: #ffffff;
             text-align: left;
-            padding: 10px 15px;
+            padding: 12px 15px;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
         }
-
         td {
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-bottom: 1px solid #e2e8f0;
             font-size: 0.9rem;
             color: #334155;
+            vertical-align: top;
         }
+        tr:nth-child(even) td { background-color: var(--bg-color); }
 
-        tr:nth-child(even) td {
-            background-color: var(--bg-color);
-        }
-
-        .badge-alert {
-            background-color: #ffe4e6;
-            color: #b91c1c;
-            padding: 2px 8px;
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
             border-radius: 4px;
             font-weight: 600;
             font-size: 0.8rem;
         }
+        .badge-alert { background-color: #ffe4e6; color: #b91c1c; }
+        .badge-success { background-color: #d1fae5; color: #065f46; }
+        .badge-info { background-color: #dbeafe; color: #1d4ed8; }
 
-        /* Pies de Diapositiva */
         .slide-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top: 1px solid #e2e8f0;
-            padding-top: 12px;
+            padding-top: 10px;
+            margin-top: 14px;
             font-size: 0.8rem;
             color: #94a3b8;
-            height: 35px;
         }
 
-        .logo-placeholder {
-            font-weight: 700;
-            color: var(--secondary-color);
-        }
+        .logo-placeholder { font-weight: 700; color: var(--secondary-color); }
 
-        /* Controles de Navegación */
         .controls {
-            margin-top: 25px;
+            margin-top: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
             gap: 20px;
         }
-
         .btn {
             background-color: var(--secondary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 6px;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s;
             font-weight: 600;
         }
-
-        .btn:hover {
-            background-color: var(--primary-color);
-        }
-
-        .btn:disabled {
-            background-color: #475569;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        .counter {
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .keyboard-hint {
-            color: #64748b;
-            font-size: 0.85rem;
-            margin-top: 10px;
-        }
+        .btn:hover { background-color: var(--primary-color); }
+        .btn:disabled { background-color: #475569; opacity: 0.5; cursor: not-allowed; }
+        .counter { color: #fff; font-size: 1rem; }
+        .keyboard-hint { color: #94a3b8; font-size: 0.85rem; margin-top: 8px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="presentation-wrapper">
 
+        <!-- 1 — Título -->
         <div class="slide active">
             <div class="slide-header">
                 <h2><span>1.</span> El Escenario Quirúrgico en la UCIN</h2>
                 <div class="module-tag">Módulo IV</div>
             </div>
             <div class="slide-content">
-                <p style="font-size: 1.15rem; margin-bottom: 20px;">Abordaje de un grupo crítico de pacientes: recién nacidos con malformaciones congénitas o complicaciones agudas (como la <strong>enterocolitis necrotizante</strong>) que requieren cirugía urgente.</p>
+                <p style="font-size: 1.05rem;">Abordaje de pacientes críticos: recién nacidos con malformaciones congénitas o complicaciones agudas —como la <strong>enterocolitis necrotizante</strong>— que requieren cirugía urgente.</p>
+
                 <div class="grid-2">
                     <div class="card">
-                        <h3>Vulnerabilidad del Paciente Crítico</h3>
-                        <p>Aunque los procedimientos quirúrgicos salvan vidas, de manera obligada quiebran la primera línea de defensa del neonato: la integridad tisular.</p>
+                        <h3>Vulnerabilidad del neonato</h3>
+                        <p>Los procedimientos quirúrgicos salvan vidas, pero rompen la primera barrera de defensa: la piel y la integridad de los tejidos.</p>
                     </div>
                     <div class="card accent">
                         <h3>La "Bacteria Fucsia"</h3>
-                        <p>Un patógeno nosocomial oportunista con alta especialización para irrumpir, proliferar y destruir los planos tisulares donde el equipo quirúrgico ya ha intervenido.</p>
+                        <p>Un patógeno nosocomial oportunista, especializado para entrar, multiplicarse y destruir los tejidos donde ya hubo intervención quirúrgica.</p>
                     </div>
+                </div>
+
+                <div class="info-box">
+                    📌 <strong>Infección del Sitio Quirúrgico (ISQ):</strong> Aparece en el sitio de la cirugía dentro de los <strong>30 días</strong> posteriores (o 1 año si hay implante). Hasta el 50% de los casos se pueden prevenir cumpliendo los paquetes de medidas.
                 </div>
             </div>
             <div class="slide-footer">
                 <span class="logo-placeholder">CONTROL DE IAAS · UCIN</span>
-                <span>Módulo IV — Diapositiva 1</span>
+                <span>Diapositiva 1 / 7</span>
             </div>
         </div>
 
+        <!-- 2 — Fisiopatología -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>2.</span> Fisiopatología de la Infección Quirúrgica</h2>
+                <h2><span>2.</span> ¿Cómo se produce la infección?</h2>
                 <div class="module-tag">Módulo IV</div>
             </div>
             <div class="slide-content">
-                <p>La progresión del patógeno a través de los tejidos del neonato se consolida en cuatro fases anatómicas y metabólicas:</p>
+                <p>La infección avanza a través de cuatro etapas:</p>
+
                 <div class="pathway-container">
-                    <div class="pathway-step">1. Ruptura Cutánea</div>
+                    <div class="pathway-step">1️⃣ Ruptura de piel</div>
                     <div class="pathway-arrow">➔</div>
-                    <div class="pathway-step">2. Infiltración</div>
+                    <div class="pathway-step">2️⃣ Entrada silenciosa</div>
                     <div class="pathway-arrow">➔</div>
-                    <div class="pathway-step active">3. Isquemia por Hipotermia</div>
+                    <div class="pathway-step active">3️⃣ Defensas bloqueadas</div>
                     <div class="pathway-arrow">➔</div>
-                    <div class="pathway-step">4. Colonización Profunda</div>
+                    <div class="pathway-step">4️⃣ Infección establecida</div>
                 </div>
+
                 <div class="grid-2">
                     <div>
-                        <p><strong>Infiltración Silenciosa:</strong> Tras la incisión y ante mínimos fallos en la esterilidad del campo, el patógeno se aloja bajo las suturas.</p>
+                        <p><strong>Entrada bajo las suturas:</strong> Basta una mínima falla en la esterilidad para que la bacteria se aloje donde es difícil detectarla.</p>
                     </div>
                     <div>
-                        <p><strong>Efecto de la Hipotermia:</strong> La pérdida de calor transoperatoria genera vasoconstricción local, disminuyendo el flujo sanguíneo y bloqueando la llegada de glóbulos blancos.</p>
+                        <p><strong>El efecto de la hipotermia:</strong> Si el neonato baja de 36°C, los vasos se cierran → no llegan glóbulos blancos ni antibióticos → la bacteria avanza sin oposición.</p>
                     </div>
                 </div>
+
                 <div class="alert-box">
-                    <strong>Consecuencia Tisular:</strong> Libre de defensas, la bacteria usa sus enzimas para destruir el colágeno, formando exudado purulento y provocando la apertura de la herida desde adentro hacia afuera (<strong>deiscencia</strong>).
+                    <strong>Resultado:</strong> Sin defensas locales, la bacteria produce enzimas que destruyen el tejido → aparece pus, enrojecimiento y la herida puede abrirse desde adentro (<strong>deiscencia</strong>).
                 </div>
             </div>
             <div class="slide-footer">
                 <span class="logo-placeholder">CONTROL DE IAAS · UCIN</span>
-                <span>Módulo IV — Diapositiva 2</span>
+                <span>Diapositiva 2 / 7</span>
             </div>
         </div>
 
+        <!-- 3 — Factores de riesgo -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>3.</span> Factores de Riesgo e Inmadurez Neonatal</h2>
+                <h2><span>3.</span> ¿Qué aumenta el riesgo?</h2>
                 <div class="module-tag">Módulo IV</div>
             </div>
             <div class="slide-content">
-                <p style="margin-bottom: 15px;">La aparición de una Infección de Sitio Quirúrgico (ISQ) es el resultado de interacciones biológicas e institucionales:</p>
+                <p>La ISQ aparece cuando se juntan condiciones del paciente y de la atención:</p>
+
                 <div class="grid-2">
                     <div class="card">
-                        <h3>Factores Intrínsecos (Neonato)</h3>
+                        <h3>🔴 Del paciente</h3>
                         <ul class="custom-list">
-                            <li><strong>Prematuridad Extrema y Bajo Peso:</strong> Tejidos con capacidad de angiogénesis y cicatrización celular disminuidas.</li>
-                            <li><strong>Inmadurez Inmune Profunda:</strong> Carencia de respuesta celular óptima contra inóculos bacterianos.</li>
-                            <li><strong>Desnutrición In Utero:</strong> Falta de sustratos energéticos básicos para la reparación local.</li>
+                            <li>Prematuridad y peso menor a 1,500 g</li>
+                            <li>Sistema inmune aún en desarrollo</li>
+                            <li>Falta de nutrientes para cicatrizar</li>
+                            <li>Menor de 3 meses: menos capacidad de defenderse</li>
+                            <li>Ya trae bacterias en piel o tracto digestivo</li>
                         </ul>
                     </div>
                     <div class="card">
-                        <h3>Factores Extrínsecos (Entorno)</h3>
+                        <h3>🟠 De la atención</h3>
                         <ul class="custom-list">
-                            <li><strong>Tiempo Quirúrgico Prolongado:</strong> Riesgo lineal; mayor exposición ambiental de tejidos equivale a mayor fijación bacteriana.</li>
-                            <li><strong>Cirugías de Urgencia:</strong> Escenarios de alta complejidad con menor margen de estabilización previa.</li>
-                            <li><strong>Quiebres de Técnica:</strong> Curaciones postoperatorias inapropiadas.</li>
+                            <li>Cirugía que dura más de 2 horas</li>
+                            <li>Cirugía de urgencia: el paciente no se optimiza</li>
+                            <li>Se abre el intestino o vías digestivas</li>
+                            <li>Temperatura baja durante la cirugía</li>
+                            <li>Curaciones sin técnica estéril</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="slide-footer">
                 <span class="logo-placeholder">CONTROL DE IAAS · UCIN</span>
-                <span>Módulo IV — Diapositiva 3</span>
+                <span>Diapositiva 3 / 7</span>
             </div>
         </div>
 
+        <!-- 4 — Paquete Preoperatorio -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>4.</span> Sustento Normativo: Paquetes de Seguridad</h2>
+                <h2><span>4.</span> Paquete de Prevención — Antes de la cirugía</h2>
                 <div class="module-tag">Módulo IV</div>
             </div>
             <div class="slide-content">
-                <p>Para mitigar la proliferación de la Bacteria Fucsia, el marco regulatorio exige el cumplimiento estricto de lineamientos estandarizados (Bundles de prevención):</p>
-                <div class="card accent" style="margin: 10px 0 15px 0; padding: 12px;">
-                    <strong>PROY-NOM-045-SSA-2026:</strong> Proyecto de Norma Oficial Mexicana enfocado en la Vigilancia Epidemiológica, Prevención y Control de Infecciones Asociadas a la Atención de la Salud (IAAS).
+                <p style="margin-bottom: 12px;">Cada medida es importante. <strong>Ninguna sustituye a otra.</strong></p>
+
+                <div class="table-wrapper">
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Medida</th>
+                                    <th>Qué hacer con el neonato</th>
+                                    <th>Para qué sirve</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Baño de piel</strong></td>
+                                    <td>Jabón neutro. Si hay que usar clorhexidina: solo en mayores de 2 meses, sin tocar rostro ni mucosas</td>
+                                    <td>Quitar bacterias de la piel antes de cortar</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quitar vello</strong></td>
+                                    <td>Solo si es necesario. Usar tijera o máquina. <strong>NUNCA navaja</strong>. Hacerlo lo más cerca de la cirugía</td>
+                                    <td>La navaja hace heridas invisibles por donde entra la bacteria</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Antibiótico</strong></td>
+                                    <td>Dar <strong>menos de 60 minutos antes</strong> de la incisión. Dosis calculada por peso. Repetir si la cirugía dura mucho</td>
+                                    <td>Que el medicamento ya esté en el tejido cuando se corta</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Preparar al paciente</strong></td>
+                                    <td>Corregir hidratación, alimentación, anemia antes de operar</td>
+                                    <td>Mejor circulación = mejor llegada de defensas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">CONTROL DE IAAS · UCIN</span>
+                <span>Diapositiva 4 / 7</span>
+            </div>
+        </div>
+
+        <!-- 5 — Paquete Intraoperatorio -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>5.</span> Paquete de Prevención — Durante la cirugía</h2>
+                <div class="module-tag">Módulo IV</div>
+            </div>
+            <div class="slide-content">
                 <div class="grid-2">
-                    <div class="card" style="border-left-color: var(--primary-color);">
-                        <h3>Estrategias en Quirófano</h3>
+                    <div class="card success">
+                        <h3>🌡️ Mantener el calor</h3>
                         <ul class="custom-list">
-                            <li>Técnica quirúrgica estéril rigurosa y uso mandatorio de <strong>barreras máximas</strong> por todo el equipo técnico.</li>
-                            <li>Administración e inicio oportuno de <strong>antibiótico profiláctico</strong> según guías clínicas vigentes.</li>
+                            <li>Temperatura: <strong>36.5°C o más</strong></li>
+                            <li>Colchón térmico, cuna caliente, soluciones tibias</li>
+                            <li>Quirófano a 26–28°C al inicio</li>
+                            <li>Si baja a menos de 36°C → se duplica el riesgo de infección</li>
                         </ul>
                     </div>
-                    <div class="card" style="border-left-color: var(--primary-color);">
-                        <h3>Estrategias en la UCIN</h3>
+                    <div class="card info">
+                        <h3>🧤 Técnica estéril</h3>
                         <ul class="custom-list">
-                            <li><strong>Control estricto de la temperatura:</strong> Prevención activa y recalentamiento regulado para evitar la hipotermia.</li>
-                            <li>Vigilancia epidemiológica y manejo de la herida con <strong>técnica aséptica de dos operadores</strong>.</li>
+                            <li>Higiene de manos completa antes de vestirse</li>
+                            <li>Todo el equipo con gorro, cubrebocas, bata y guantes</li>
+                            <li>Desinfectar piel desde el centro hacia afuera</li>
+                            <li>Pocas personas dentro y poco movimiento</li>
                         </ul>
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-top: 16px;">
+                    <div class="card" style="padding: 14px; border-left-width: 3px;">
+                        <h4>💧 Soluciones tibias</h4>
+                        <p style="font-size: 0.9rem; margin: 0;">Líquidos intravenosos a 37°C. Mantener buena circulación sin sobrecargar.</p>
+                    </div>
+                    <div class="card" style="padding: 14px; border-left-width: 3px;">
+                        <h4>🔬 Instrumental</h4>
+                        <p style="font-size: 0.9rem; margin: 0;">Revisar indicadores de esterilidad. No usar si el empaque está roto o húmedo.</p>
+                    </div>
+                    <div class="card" style="padding: 14px; border-left-width: 3px;">
+                        <h4>⏱️ Menos tiempo</h4>
+                        <p style="font-size: 0.9rem; margin: 0;">Cada hora extra de cirugía aumenta el riesgo. Planear bien los pasos.</p>
                     </div>
                 </div>
             </div>
             <div class="slide-footer">
                 <span class="logo-placeholder">CONTROL DE IAAS · UCIN</span>
-                <span>Módulo IV — Diapositiva 4</span>
+                <span>Diapositiva 5 / 7</span>
             </div>
         </div>
 
+        <!-- 6 — Paquete Postoperatorio + Vigilancia -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>5.</span> Criterios de Alerta (Evaluación de Enfermería)</h2>
+                <h2><span>6.</span> Paquete de Prevención — Después de la cirugía</h2>
                 <div class="module-tag">Módulo IV</div>
             </div>
             <div class="slide-content">
-                <p style="margin-bottom: 10px;">La evaluación clínica continua a pie de cuna permite identificar de forma oportuna la colonización y evitar la progresión a sepsis:</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Signo Clínico</th>
-                            <th>Manifestación Específica</th>
-                            <th>Acción Inmediata de Enfermería</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Inflamación Local</strong></td>
-                            <td>Enrojecimiento, calor local evidente o induración de los bordes.</td>
-                            <td><span class="badge-alert">Registro y Monitoreo</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Secreción Anómala</strong></td>
-                            <td>Presencia o salida activa de exudado purulento.</td>
-                            <td><span class="badge-alert">Notificación y Cultivo</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Fallo Estructural</strong></td>
-                            <td>Apertura de los planos de la incisión (<strong>deiscencia</strong>).</td>
-                            <td><span class="badge-alert">Intervención Médica</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Inestabilidad Sistémica</strong></td>
-                            <td>Fiebre o hipotermia sin otro foco infeccioso aparente.</td>
-                            <td><span class="badge-alert">Valoración Integral</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 12px;">
-                    *Nota: Todo retraso evidente en la evolución normal de la cicatrización debe notificarse de inmediato al cirujano neonatal.
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🩹 Cuidado de la herida</h3>
+                        <ul class="custom-list">
+                            <li>Lavarse las manos y usar guantes SIEMPRE antes y después</li>
+                            <li>Primer cambio: a las 48 horas, o antes si se ensucia</li>
+                            <li>Limpiar con suero tibio, del centro hacia afuera</li>
+                            <li><strong>NO</strong> poner yodo ni clorhexidina sobre la herida abierta</li>
+                            <li>Apósito limpio y seco. Cambiar solo si lo necesita</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3>👀 Vigilancia diaria</h3>
+                        <ul class="custom-list">
+                            <li>Mantener calor: incubadora cerrada, sin corrientes</li>
+                            <li>Empezar a alimentar lo antes posible</li>
+                            <li>Retirar antibiótico en 24 a 48 horas</li>
+                            <li>Revisar la herida todos los días</li>
+                            <li>Seguir vigilando hasta el día <strong>30</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="table-wrapper" style="margin-top: 14px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Señal de alerta</th>
+                                <th>Qué observar</th>
+                                <th>Qué hacer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Enrojecimiento o calor</td>
+                                <td>Bordes rojos, calientes o duros</td>
+                                <td><span class="badge badge-info">Anotar · vigilar cada turno</span></td>
+                            </tr>
+                            <tr>
+                                <td>Líquido o pus</td>
+                                <td>Secreción amarilla, verde o con mal olor</td>
+                                <td><span class="badge badge-alert">Avisar al médico · tomar cultivo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Se abre la herida</td>
+                                <td>Los bordes se separan</td>
+                                <td><span class="badge badge-alert">Cubrir con suero estéril · avisar urgente</span></td>
+                            </tr>
+                            <tr>
+                                <td>El neonato cambia</td>
+                                <td>Deja de comer, se pone lento, tiene pausas para respirar, sube o baja de temperatura</td>
+                                <td><span class="badge badge-alert">Valorar completo · avisar sin esperar</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">CONTROL DE IAAS · UCIN</span>
+                <span>Diapositiva 6 / 7</span>
+            </div>
+        </div>
+
+        <!-- 7 — Tipos y Cierre -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>7.</span> Tipos de ISQ y mensaje final</h2>
+                <div class="module-tag">Módulo IV</div>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card info">
+                        <h3>🔹 Superficial</h3>
+                        <p>Solo afecta la piel.</p>
+                        <ul class="custom-list" style="font-size: 0.9rem;">
+                            <li>Enrojecimiento y calor</li>
+                            <li>Poca secreción</li>
+                            <li>Tratamiento sencillo</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3>🔹 Profunda</h3>
+                        <p>Llega a músculo o fascia.</p>
+                        <ul class="custom-list" style="font-size: 0.9rem;">
+                            <li>Se abre la herida</li>
+                            <li>Acumula pus adentro</li>
+                            <li>Requiere reintervención</li>
+                        </ul>
+                    </div>
+                    <div class="card warning">
+                        <h3>🔹 Órgano o espacio</h3>
+                        <p>Dentro del cuerpo.</p>
+                        <ul class="custom-list" style="font-size: 0.9rem;">
+                            <li>Absceso interno</li>
+                            <li>Peritonitis</li>
+                            <li>Mayor riesgo de muerte</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box" style="text-align: center; font-size: 1.05rem; padding: 18px;">
+                    💡 <strong>La mejor forma de tratar la infección es evitarla.</strong><br>
+                    Higiene de manos + calor + antibiótico a tiempo + técnica estéril + buena nutrición = <strong>cero infecciones prevenibles</strong>.
+                </div>
+
+                <p style="text-align: center; color: #94a3b8; font-size: 0.85rem; margin-top: 8px;">
+                    Basado en PROY-NOM-045-SSA-2026 y Guías de Práctica Clínica
                 </p>
             </div>
             <div class="slide-footer">
                 <span class="logo-placeholder">CONTROL DE IAAS · UCIN</span>
-                <span>Módulo IV — Diapositiva 5</span>
+                <span>Diapositiva 7 / 7</span>
             </div>
         </div>
 
     </div>
 
     <div class="controls">
-        <button class="btn" id="prevBtn" disabled>◀ Anterior</button>
-        <span class="counter" id="slideCounter">Diapositiva 1 / 5</span>
-        <button class="btn" id="nextBtn">Siguiente ▶</button>
+        <button class="btn" id="prevBtn" onclick="cambiar(-1)">⬅ Anterior</button>
+        <span class="counter" id="contador">1 / 7</span>
+        <button class="btn" id="nextBtn" onclick="cambiar(1)">Siguiente ➡</button>
     </div>
-    
-    <div class="keyboard-hint">Puedes usar las flechas de dirección ( ◀ / ▶ ) de tu teclado para cambiar de diapositiva.</div>
+    <p class="keyboard-hint">Usa las flechas ← → del teclado para avanzar</p>
 
     <script>
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const slideCounter = document.getElementById('slideCounter');
-        
-        let currentSlide = 0;
-        const totalSlides = slides.length;
+        let actual = 0;
+        const diapositivas = document.querySelectorAll('.slide');
+        const total = diapositivas.length;
 
-        function updateSlides() {
-            slides.forEach((slide, index) => {
-                if (index === currentSlide) {
-                    slide.classList.add('active');
-                } else {
-                    slide.classList.remove('active');
-                }
-            });
-
-            slideCounter.textContent = `Diapositiva ${currentSlide + 1} / ${totalSlides}`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === totalSlides - 1;
+        function actualizar() {
+            diapositivas.forEach((d, i) => d.classList.toggle('active', i === actual));
+            document.getElementById('contador').textContent = `${actual + 1} / ${total}`;
+            document.getElementById('prevBtn').disabled = actual === 0;
+            document.getElementById('nextBtn').textContent = actual === total - 1 ? 'Reiniciar ↺' : 'Siguiente ➡';
         }
 
-        prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlides();
-            }
-        });
+        function cambiar(direccion) {
+            actual += direccion;
+            if (actual >= total) actual = 0;
+            if (actual < 0) actual = total - 1;
+            actualizar();
+        }
 
-        nextBtn.addEventListener('click', () => {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlides();
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlides();
-            } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
-                currentSlide--;
-                updateSlides();
-            }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') cambiar(-1);
+            if (e.key === 'ArrowRight') cambiar(1);
         });
     </script>
+
 </body>
 </html>

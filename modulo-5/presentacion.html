@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo V: Prevención de Infecciones de Vías Urinarias Asociadas a Catéter Vesical (IVUAC) en la UCIN</title>
+    <title>Módulo V: Prevención de IVUAC en la UCIN</title>
     <style>
         :root {
             --primary-color: #0b2545;
@@ -33,13 +33,12 @@
             justify-content: flex-start;
             min-height: 100vh;
             overflow: auto;
-            padding: 24px 12px;
+            padding: 12px 8px;
         }
 
-        /* Contenedor de la Presentación */
         .presentation-wrapper {
             position: relative;
-            width: min(1024px, calc(100vw - 24px));
+            width: min(1024px, calc(100vw - 16px));
             aspect-ratio: 16 / 9;
             height: auto;
             background: #ffffff;
@@ -48,21 +47,20 @@
             overflow: hidden;
         }
 
-        /* Diapositivas */
         .slide {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 40px 55px;
+            padding: 24px 32px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.4s ease, visibility 0.4s ease;
             background: #ffffff;
+            overflow-y: auto; /* ✅ Permite desplazamiento interno si es necesario */
         }
 
         .slide.active {
@@ -70,30 +68,29 @@
             visibility: visible;
         }
 
-        /* Línea estética superior */
         .slide::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
+            height: 5px;
             background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
         }
 
-        /* Encabezados */
         .slide-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 12px;
-            height: 55px;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            min-height: 40px;
         }
 
         .slide-header h2 {
             color: var(--primary-color);
-            font-size: 1.65rem;
+            font-size: 1.25rem;
             font-weight: 700;
         }
 
@@ -105,37 +102,45 @@
         .module-tag {
             background-color: var(--accent-light);
             color: var(--accent-color);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             border: 1px solid rgba(6, 182, 212, 0.3);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
-        /* Contenido Central */
         .slide-content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            font-size: 1rem;
-            line-height: 1.45;
-            padding: 10px 0;
+            font-size: 0.9rem;
+            line-height: 1.35;
         }
 
-        /* Estructuras de Diseño */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr; /* ✅ Se apila verticalmente en pantallas pequeñas */
+            }
+            .phase-row {
+                flex-wrap: wrap;
+            }
+            .phase-col {
+                min-width: 48%;
+            }
         }
 
         .card {
             background: var(--bg-color);
             border-left: 4px solid var(--secondary-color);
-            padding: 12px 18px;
+            padding: 10px 14px;
             border-radius: 0 8px 8px 0;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
@@ -147,13 +152,13 @@
 
         .card h3 {
             color: var(--primary-color);
-            font-size: 1.05rem;
-            margin-bottom: 5px;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
         }
 
         p {
             color: #475569;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         p:last-child {
@@ -164,64 +169,26 @@
             color: var(--primary-color);
         }
 
-        /* Diagrama de Flujo */
-        .pathway-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px 0 15px 0;
-            background: var(--bg-color);
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .pathway-step {
-            flex: 1;
-            background: #ffffff;
-            border: 2px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 8px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--secondary-color);
-        }
-
-        .pathway-step.active {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            background: var(--accent-light);
-        }
-
-        .pathway-arrow {
-            padding: 0 6px;
-            color: #94a3b8;
-            font-weight: bold;
-        }
-
-        /* Bloques de Alerta */
         .alert-box {
             background-color: var(--warning-bg);
             border: 1px solid rgba(244, 63, 94, 0.2);
-            border-left: 5px solid var(--warning-border);
+            border-left: 4px solid var(--warning-border);
             color: var(--warning-text);
-            padding: 12px;
+            padding: 8px 12px;
             border-radius: 4px;
-            margin-top: 12px;
-            font-size: 0.9rem;
+            margin-top: 10px;
+            font-size: 0.8rem;
         }
 
-        /* Listas */
         .custom-list {
             list-style: none;
         }
 
         .custom-list li {
             position: relative;
-            padding-left: 18px;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
+            padding-left: 16px;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
             color: #475569;
         }
 
@@ -231,13 +198,12 @@
             left: 0;
             color: var(--accent-color);
             font-weight: bold;
-            font-size: 1.1rem;
-            top: -2px;
+            font-size: 1rem;
+            top: -1px;
         }
 
-        /* Tablas */
         .table-container {
-            max-height: 340px;
+            max-height: 220px;
             overflow-y: auto;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
@@ -252,18 +218,17 @@
             background-color: var(--primary-color);
             color: #ffffff;
             text-align: left;
-            padding: 10px 12px;
-            font-size: 0.8rem;
+            padding: 7px 9px;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             position: sticky;
             top: 0;
         }
 
         td {
-            padding: 8px 12px;
+            padding: 6px 9px;
             border-bottom: 1px solid #e2e8f0;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #334155;
             vertical-align: top;
         }
@@ -275,23 +240,33 @@
         .badge-alert {
             background-color: #ffe4e6;
             color: #b91c1c;
-            padding: 2px 6px;
+            padding: 1px 5px;
             border-radius: 4px;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             display: inline-block;
         }
 
-        /* Pies de Diapositiva */
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
         .slide-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top: 1px solid #e2e8f0;
-            padding-top: 10px;
-            font-size: 0.75rem;
+            padding-top: 6px;
+            margin-top: 8px;
+            font-size: 0.7rem;
             color: #94a3b8;
-            height: 30px;
+            min-height: 24px;
         }
 
         .logo-placeholder {
@@ -299,22 +274,58 @@
             color: var(--secondary-color);
         }
 
-        /* Controles de Navegación */
+        .phase-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .phase-col {
+            flex: 1;
+            min-width: 240px;
+            background: var(--bg-color);
+            border-top: 3px solid var(--secondary-color);
+            padding: 10px 12px;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .phase-col.accent {
+            border-top-color: var(--accent-color);
+            background: var(--accent-light);
+        }
+
+        .phase-col h4 {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .phase-col ul {
+            padding-left: 16px;
+            font-size: 0.8rem;
+        }
+
+        .phase-col ul li {
+            margin-bottom: 3px;
+            color: #475569;
+        }
+
         .controls {
-            margin-top: 20px;
+            margin-top: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
         }
 
         .btn {
             background-color: var(--secondary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
+            padding: 8px 16px;
+            font-size: 0.9rem;
             border-radius: 6px;
             cursor: pointer;
             transition: background 0.2s;
@@ -325,22 +336,17 @@
             background-color: var(--primary-color);
         }
 
-        .btn:disabled {
-            background-color: #475569;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
         .counter {
             color: #ffffff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
         }
 
         .keyboard-hint {
             color: #64748b;
-            font-size: 0.85rem;
-            margin-top: 8px;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            text-align: center;
         }
     </style>
 </head>
@@ -348,114 +354,172 @@
 
     <div class="presentation-wrapper">
 
-        <!-- DIAPOSITIVA 1: Fisiopatología del Ascenso y Colonización -->
+        <!-- DIAPOSITIVA 1: Fisiopatología -->
         <div class="slide active">
             <div class="slide-header">
-                <h2><span>1.</span> Fisiopatología y Colonización Bacteriana</h2>
+                <h2><span>1.</span> Fisiopatología y Colonización</h2>
                 <div class="module-tag">Módulo V</div>
             </div>
             <div class="slide-content">
-                <p style="font-size: 1.05rem; margin-bottom: 12px;">La introducción del catéter rompe las defensas naturales y elimina el <strong>efecto de barrido mecánico</strong> de la micción fisiológica.</p>
+                <p>La introducción del catéter rompe las defensas naturales y elimina el <strong>efecto de barrido mecánico</strong> de la micción fisiológica.</p>
                 
                 <div class="grid-2">
                     <div class="card">
                         <h3>Vías de Ascenso Microbiano</h3>
-                        <p style="font-size:0.9rem;"><strong>Extraluminal (Periuretral):</strong> Temprana. Migración capilar de microorganismos perineales entre la superficie externa de la sonda y la mucosa.</p>
-                        <p style="font-size:0.9rem;"><strong>Intraluminal:</strong> Tardía. Contaminación retrógrada del circuito o bolsa colectora a través del lumen interno.</p>
+                        <p><strong>Extraluminal:</strong> Migración de microorganismos perineales entre la sonda y la mucosa uretral.</p>
+                        <p><strong>Intraluminal:</strong> Contaminación retrógrada desde la bolsa o circuito a través del lumen interno.</p>
                     </div>
                     <div class="card accent">
-                        <h3>Factores de Virulencia y Estasis</h3>
-                        <p style="font-size:0.9rem;"><strong>Biofilm Irreversible:</strong> Las bacterias usan pili/fimbrias para anclarse y secretan una matriz exopolisacárida que las aísla de antibióticos.</p>
-                        <p style="font-size:0.9rem;"><strong>Reflujo:</strong> El estancamiento urinario genera multiplicación exponencial e incrementa la presión hidrostática hacia uréteres y riñones.</p>
+                        <h3>Factores de Virulencia</h3>
+                        <p><strong>Biofilm:</strong> Las bacterias se adhieren y forman una matriz que las protege de antibióticos.</p>
+                        <p><strong>Reflujo y estasis:</strong> El estancamiento urinario acelera la multiplicación bacteriana.</p>
                     </div>
                 </div>
             </div>
             <div class="slide-footer">
-                <span class="logo-placeholder">PREVENCIÓN DE IVUAC · UCIN</span>
-                <span>Módulo V — Diapositiva 1</span>
+                <span class="logo-placeholder">IVUAC · UCIN</span>
+                <span>Diapo 1/6</span>
             </div>
         </div>
 
-        <!-- DIAPOSITIVA 2: Factores de Riesgo Extrínsecos e Intrínsecos -->
+        <!-- DIAPOSITIVA 2: Factores de Riesgo -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>2.</span> Factores de Riesgo en la UCIN</h2>
+                <h2><span>2.</span> Factores de Riesgo</h2>
                 <div class="module-tag">Módulo V</div>
             </div>
             <div class="slide-content">
                 <div class="grid-2">
                     <div class="card">
-                        <h3>Factores Extrínsecos (Entorno)</h3>
+                        <h3>Extrínsecos (Modificables)</h3>
                         <ul class="custom-list">
-                            <li><strong>Duración de la Cateterización:</strong> Principal predictor modificable; incrementa el riesgo de biofilm diariamente.</li>
-                            <li><strong>Posición Anómala de la Bolsa:</strong> Bolsa por encima de la vejiga rompe la gravedad y produce reflujo inmediato.</li>
-                            <li><strong>Apertura del Circuito:</strong> Manipulación y desconexiones que activan la vía intraluminal.</li>
-                            <li><strong>Antibióticos Previos:</strong> Erradican la microbiota comensal y barren la competencia ecológica.</li>
+                            <li><strong>Duración:</strong> Cada día extra = +5–8% de riesgo</li>
+                            <li><strong>Bolsa elevada:</strong> Provoca reflujo inmediato</li>
+                            <li><strong>Desconexiones:</strong> Abren la vía de entrada intraluminal</li>
+                            <li><strong>Antibióticos:</strong> Eliminan flora protectora</li>
                         </ul>
                     </div>
                     <div class="card accent">
-                        <h3>Factores Intrínsecos (Neonato)</h3>
+                        <h3>Intrínsecos (Paciente)</h3>
                         <ul class="custom-list">
-                            <li><strong>Malformaciones Congénitas (MCTU):</strong> El reflujo vesicoureteral (RVU) facilita el ascenso directo al parénquima renal.</li>
-                            <li><strong>Prematuro Extremo:</strong> Peso inferior a 1,500 gramos condiciona una vulnerabilidad tisular crítica.</li>
-                            <li><strong>Inmadurez de la Barrera Urotelial:</strong> Moco vesical subdesarrollado y déficit en péptidos antimicrobianos naturales.</li>
+                            <li><strong>Malformaciones urinarias:</strong> Facilitan el ascenso</li>
+                            <li><strong>Prematuridad &lt;1,500 g:</strong> Barreras inmunitarias y tisulares débiles</li>
+                            <li><strong>Inmadurez urotelial:</strong> Menos moco y péptidos antimicrobianos</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="slide-footer">
-                <span class="logo-placeholder">PREVENCIÓN DE IVUAC · UCIN</span>
-                <span>Módulo V — Diapositiva 2</span>
+                <span class="logo-placeholder">IVUAC · UCIN</span>
+                <span>Diapo 2/6</span>
             </div>
         </div>
 
-        <!-- DIAPOSITIVA 3: Sustento Normativo y Bundle (Parte 1) -->
+        <!-- DIAPOSITIVA 3: Calibres -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>3.</span> Paquete de Medidas de Seguridad (Bundle) — Inserción</h2>
+                <h2><span>3.</span> Calibres según Peso y Edad</h2>
                 <div class="module-tag">Módulo V</div>
             </div>
             <div class="slide-content">
-                <p style="margin-bottom: 10px;">Bajo directrices de la <strong>PROY-NOM-045-SSA-2026</strong>, criterios obligatorios para el control de IAAS:</p>
+                <p><strong>Principio:</strong> Usar siempre el calibre más pequeño que permita drenaje libre → reduce trauma y facilita micción espontánea.</p>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Criterio Operativo</th>
-                                <th>Acción Obligatoria de Enfermería</th>
-                                <th>Justificación Clínica</th>
+                                <th>Grupo / Peso</th>
+                                <th>Calibre</th>
+                                <th>Detalles</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Técnica de Inserción</strong></td>
-                                <td>Inserción bajo estricta técnica estéril, uso de guantes, campos hendidos y antiséptico normado.</td>
-                                <td>Previene la introducción directa de microorganismos de la vía extraluminal.</td>
+                                <td>&lt; 1,000 g</td>
+                                <td>5–6 Fr</td>
+                                <td>Silicona, punta recta. <span class="badge-alert">Sin balón</span></td>
                             </tr>
                             <tr>
-                                <td><strong>Mantenimiento del Circuito</strong></td>
-                                <td>Mantener un sistema de drenaje urinario estrictamente cerrado.</td>
-                                <td>Bloquea la ruta intraluminal de contaminación retrógrada.</td>
+                                <td>1,000 – 2,500 g</td>
+                                <td>6–7 Fr</td>
+                                <td>Evitar balón en prematuros</td>
                             </tr>
                             <tr>
-                                <td><strong>Posicionamiento</strong></td>
-                                <td>Bolsa colectora permanentemente por debajo del nivel de la vejiga (sin tocar el suelo).</td>
-                                <td>Evita la estasis urinaria y el reflujo hidrodinámico hacia el urotelio.</td>
+                                <td>&gt; 2,500 g / Término</td>
+                                <td>7–8 Fr</td>
+                                <td>Con balón <span class="badge-success">solo</span> si &gt;48–72h</td>
+                            </tr>
+                            <tr>
+                                <td>1 – 6 meses</td>
+                                <td>8 Fr</td>
+                                <td>Balón 3–5 mL</td>
+                            </tr>
+                            <tr>
+                                <td>6 – 12 meses</td>
+                                <td>8–10 Fr</td>
+                                <td>Diámetro mínimo suficiente</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="slide-footer">
-                <span class="logo-placeholder">PREVENCIÓN DE IVUAC · UCIN</span>
-                <span>Módulo V — Diapositiva 3</span>
+                <span class="logo-placeholder">IVUAC · UCIN</span>
+                <span>Diapo 3/6</span>
             </div>
         </div>
 
-        <!-- DIAPOSITIVA 4: Sustento Normativo y Bundle (Parte 2) -->
+        <!-- DIAPOSITIVA 4: Paquete Preventivo -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>4.</span> Paquete de Medidas de Seguridad (Bundle) — Mantenimiento</h2>
+                <h2><span>4.</span> Paquete de Prevención — 3 Fases</h2>
+                <div class="module-tag">Módulo V</div>
+            </div>
+            <div class="slide-content">
+                <p>Basado en <strong>PROY-NOM-045-SSA-2026</strong> y Manual RHOVE:</p>
+                
+                <div class="phase-row">
+                    <div class="phase-col">
+                        <h4>🔹 Inserción</h4>
+                        <ul>
+                            <li>Indicación médica justificada</li>
+                            <li>Técnica estéril completa</li>
+                            <li>Calibre mínimo necesario</li>
+                            <li>Fijar para evitar tracción</li>
+                            <li>Sin desconectar el sistema</li>
+                        </ul>
+                    </div>
+                    <div class="phase-col accent">
+                        <h4>🔹 Mantenimiento</h4>
+                        <ul>
+                            <li>Bolsa siempre por debajo de vejiga</li>
+                            <li>Pinzar antes de elevar</li>
+                            <li>Vaciado solo por puerto limpio</li>
+                            <li>Agua + jabón suave en zona perineal</li>
+                            <li>Revisar diaria: ¿sigue siendo necesaria?</li>
+                        </ul>
+                    </div>
+                    <div class="phase-col">
+                        <h4>🔹 Retiro</h4>
+                        <ul>
+                            <li>Retirar lo antes posible</li>
+                            <li>Técnica aséptica al retirar</li>
+                            <li>Registrar duración</li>
+                            <li>Verificar micción ≤ 24 h</li>
+                            <li>Notificar si no orina en 24 h</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span class="logo-placeholder">IVUAC · UCIN</span>
+                <span>Diapo 4/6</span>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 5: Criterios Normativos -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span>5.</span> Criterios Normativos</h2>
                 <div class="module-tag">Módulo V</div>
             </div>
             <div class="slide-content">
@@ -463,131 +527,121 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Criterio Operativo</th>
-                                <th>Acción Obligatoria de Enfermería</th>
-                                <th>Justificación Clínica</th>
+                                <th>Acción</th>
+                                <th>Qué hacer</th>
+                                <th>Por qué</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td><strong>Inserción</strong></td>
+                                <td>Técnica estéril, campos, guantes, antiséptico</td>
+                                <td>Evita introducir bacterias por vía externa</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Circuito</strong></td>
+                                <td>Mantener sistema cerrado, sin desconexiones</td>
+                                <td>Bloquea contaminación retrógrada</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bolsa</strong></td>
+                                <td>Siempre por debajo de la vejiga</td>
+                                <td>Gravedad drena, evita reflujo</td>
+                            </tr>
                             <tr>
                                 <td><strong>Fijación</strong></td>
-                                <td>Fijación adecuada del dispositivo según la anatomía del neonato, evitando tracción o acodaduras.</td>
-                                <td>Reduce el trauma mecánico de la mucosa uretral que facilita la adherencia bacteriana.</td>
+                                <td>Segura, sin tracción ni codos</td>
+                                <td>Menos trauma = menos adherencia bacteriana</td>
                             </tr>
                             <tr>
-                                <td><strong>Higiene de Manos</strong></td>
-                                <td>Ejecución de los 5 momentos y fricción con alcohol gel antes y después de cualquier manipulación.</td>
-                                <td>Corta la cadena de transmisión cruzada por vectores fómitos.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Evaluación Diaria</strong></td>
-                                <td>Valoración médica y de enfermería de la necesidad de la sonda; retiro oportuno.</td>
-                                <td>Disminuye la ventana temporal crítica de exposición a la formación de biopelículas.</td>
+                                <td><strong>Evaluación</strong></td>
+                                <td>Revisar diariamente su continuidad</td>
+                                <td>Menos días = menor riesgo de biofilm</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="slide-footer">
-                <span class="logo-placeholder">PREVENCIÓN DE IVUAC · UCIN</span>
-                <span>Módulo V — Diapositiva 4</span>
+                <span class="logo-placeholder">IVUAC · UCIN</span>
+                <span>Diapo 5/6</span>
             </div>
         </div>
 
-        <!-- DIAPOSITIVA 5: Errores Comunes e Identificación Clínica -->
+        <!-- DIAPOSITIVA 6: Errores y Signos de Alarma -->
         <div class="slide">
             <div class="slide-header">
-                <h2><span>5.</span> Errores Comunes vs. Alertas Clínicas</h2>
+                <h2><span>6.</span> Errores vs. Signos de Alarma</h2>
                 <div class="module-tag">Módulo V</div>
             </div>
             <div class="slide-content">
                 <div class="grid-2">
                     <div class="card">
-                        <h3>Errores Comunes en la Práctica</h3>
+                        <h3>Errores Frecuentes</h3>
                         <ul class="custom-list">
-                            <li>Elevación de la bolsa en traslados (pesajes, Rx) sin realizar el pinzado previo del circuito.</li>
-                            <li>Desconexión del sistema para toma de muestras o vaciado usando técnica limpia en vez de estéril.</li>
-                            <li>Persistencia prolongada del dispositivo por omisión de protocolos de desescalación y retiro temprano.</li>
+                            <li>Elevar bolsa sin pinzar → reflujo</li>
+                            <li>Desconexiones frecuentes o toma de muestra sin técnica estéril</li>
+                            <li>Dejar sonda sin reevaluar diariamente</li>
+                            <li>Calibre muy grueso → comprime uretra</li>
+                            <li>Antisépticos rutinarios en mucosa perineal</li>
                         </ul>
                     </div>
                     <div class="card accent">
-                        <h3>Alertas de Sospecha (Sonda o &lt;48h Retiro)</h3>
+                        <h3>Signos de Sospecha en Neonatos</h3>
                         <ul class="custom-list">
-                            <li><strong>Orina:</strong> Sedimento macroscópico, turbidez o mal olor.</li>
-                            <li><strong>Térmica:</strong> Fiebre inexplicable o hipotermia refractaria.</li>
-                            <li><strong>Neurológico:</strong> Irritabilidad, letargo, apneas o bradicardias.</li>
-                            <li><strong>Digestivo:</strong> Residuo gástrico o distensión abdominal.</li>
-                            <li><strong>Sistémico:</strong> Signos francos de sepsis o falla renal aguda.</li>
+                            <li>Orina turbia, con sedimento o mal olor</li>
+                            <li>Fiebre o hipotermia sin causa aparente</li>
+                            <li>Irritabilidad, letargo, apneas o bradicardias</li>
+                            <li>Residuos gástricos aumentados o distensión abdominal</li>
+                            <li>Taquicardia, hipoperfusión o falla renal</li>
                         </ul>
                     </div>
                 </div>
-                <div class="alert-box" style="margin-top:10px; padding: 8px 12px; font-size:0.85rem;">
-                    <strong>Urgencia Asistencial:</strong> Toda sospecha clínica o quiebre documentado del sistema cerrado exige reevaluación inmediata para mitigar el riesgo de pielonefritis o bacteriemia secundaria.
+                <div class="alert-box">
+                    ⚠️ Toda sospecha exige reevaluación, cultivo de orina y considerar retiro del catéter.
                 </div>
             </div>
             <div class="slide-footer">
-                <span class="logo-placeholder">PREVENCIÓN DE IVUAC · UCIN</span>
-                <span>Módulo V — Diapositiva 5</span>
+                <span class="logo-placeholder">IVUAC · UCIN</span>
+                <span>Diapo 6/6</span>
             </div>
         </div>
 
     </div>
 
-    <!-- CONTROLES INTERACTIVOS -->
     <div class="controls">
-        <button class="btn" id="prevBtn" disabled>◀ Anterior</button>
-        <span class="counter" id="slideCounter">Diapositiva 1 / 5</span>
-        <button class="btn" id="nextBtn">Siguiente ▶</button>
+        <button class="btn" id="prevBtn" onclick="changeSlide(-1)">⬅ Anterior</button>
+        <span class="counter" id="slideCounter">1 / 6</span>
+        <button class="btn" id="nextBtn" onclick="changeSlide(1)">Siguiente ➡</button>
     </div>
-    
-    <div class="keyboard-hint">Puedes usar las flechas de dirección ( ◀ / ▶ ) de tu teclado para cambiar de diapositiva.</div>
+    <p class="keyboard-hint">Usa ← → del teclado para navegar</p>
 
     <script>
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const slideCounter = document.getElementById('slideCounter');
-        
         let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
 
-        function updateSlides() {
-            slides.forEach((slide, index) => {
-                if (index === currentSlide) {
-                    slide.classList.add('active');
-                } else {
-                    slide.classList.remove('active');
-                }
+        function showSlide(index) {
+            if (index >= totalSlides) currentSlide = 0;
+            else if (index < 0) currentSlide = totalSlides - 1;
+            else currentSlide = index;
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentSlide);
             });
 
-            slideCounter.textContent = `Diapositiva ${currentSlide + 1} / ${totalSlides}`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === totalSlides - 1;
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
         }
 
-        prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlides();
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlides();
-            }
-        });
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlides();
-            } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
-                currentSlide--;
-                updateSlides();
-            }
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
         });
     </script>
+
 </body>
 </html>
