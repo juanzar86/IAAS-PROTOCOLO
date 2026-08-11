@@ -586,6 +586,104 @@
             padding: 20px;
         }
 
+        .dimension-header {
+            margin: 28px 0 4px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--teal-dark);
+            border-left: 4px solid var(--teal);
+            padding: 6px 0 6px 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .dimension-header:first-child {
+            margin-top: 0;
+        }
+
+        .q-title {
+            font-weight: 600;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .q-options {
+            display: grid;
+            gap: 8px;
+        }
+
+        .q-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 0.92rem;
+        }
+
+        .q-option:hover {
+            background: #f2f8f7;
+            border-color: var(--teal);
+        }
+
+        .q-option input {
+            margin-top: 3px;
+            flex-shrink: 0;
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+        .ficha-note {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .result-box {
+            display: none;
+            margin-top: 24px;
+            padding: 20px 24px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--clinica-tint);
+        }
+
+        .result-box h3 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .result-box.level-alto {
+            border-color: var(--ok);
+            background: #eafaf1;
+        }
+
+        .result-box.level-alto h3 {
+            color: var(--ok);
+        }
+
+        .result-box.level-medio {
+            border-color: var(--warn);
+            background: #fdf6e8;
+        }
+
+        .result-box.level-medio h3 {
+            color: var(--warn);
+        }
+
+        .result-box.level-bajo {
+            border-color: var(--low);
+            background: #fbecea;
+        }
+
+        .result-box.level-bajo h3 {
+            color: var(--low);
+        }
+
         /* ---------- RESPONSIVO ---------- */
         @media (max-width: 1024px) {
             .profile-grid {
@@ -712,62 +810,60 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    <p class="ficha-note">Ficha de identificación. Seleccione o escriba la respuesta que corresponda
+                        a su situación actual.</p>
                     <div class="profile-grid">
                         <div class="field">
-                            <label>Edad</label>
-                            <input type="number" id="edad" min="18" max="70">
+                            <label>Edad (años cumplidos)</label>
+                            <input type="number" id="pre_edad" min="18" max="70">
                         </div>
                         <div class="field">
-                            <label>Antigüedad laboral</label>
-                            <select id="antiguedad">
+                            <label>Sexo</label>
+                            <select id="pre_sexo">
                                 <option value="">Seleccione</option>
-                                <option value="menos1">Menos de 1 año</option>
-                                <option value="1a3">1 a 3 años</option>
-                                <option value="3a5">3 a 5 años</option>
-                                <option value="mas5">Más de 5 años</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                                <option value="otro">Otro / Prefiero no decir</option>
                             </select>
                         </div>
                         <div class="field">
                             <label>Nivel académico</label>
-                            <select id="nivel">
+                            <select id="pre_nivel">
                                 <option value="">Seleccione</option>
                                 <option value="tecnico">Técnico en Enfermería</option>
-                                <option value="licenciatura">Licenciatura</option>
-                                <option value="especialidad">Especialidad</option>
+                                <option value="licenciatura">Licenciatura en Enfermería</option>
+                                <option value="especialidad">Especialidad en Enfermería Pediátrica / Neonatal</option>
+                                <option value="posgrado">Maestría / Doctorado</option>
                             </select>
                         </div>
                         <div class="field">
-                            <label>Turno habitual</label>
-                            <select id="turno">
+                            <label>Antigüedad laboral (IMSS)</label>
+                            <select id="pre_antiguedad">
+                                <option value="">Seleccione</option>
+                                <option value="menos1">Menos de 1 año</option>
+                                <option value="1a5">De 1 a 5 años</option>
+                                <option value="6a10">De 6 a 10 años</option>
+                                <option value="mas10">Más de 10 años</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Turno laboral asignado</label>
+                            <select id="pre_turno">
                                 <option value="">Seleccione</option>
                                 <option value="matutino">Matutino</option>
                                 <option value="vespertino">Vespertino</option>
-                                <option value="nocturno">Nocturno</option>
-                                <option value="mixto">Mixto/Rotativo</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>Servicio/Área</label>
-                            <select id="servicio">
-                                <option value="">Seleccione</option>
-                                <option value="urgencias">Urgencias</option>
-                                <option value="hospitalizacion">Hospitalización</option>
-                                <option value="ucin">UCIN</option>
-                                <option value="piso">Piso de Pediatría</option>
-                                <option value="otro">Otro</option>
+                                <option value="nocturno">Nocturno (A / B)</option>
+                                <option value="acumulada">Jornada Acumulada (sábados, domingos y festivos)</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="quiz-grid">
-                        <p style="color:var(--muted); font-style:italic;">Las preguntas del cuestionario se integrarán
-                            aquí.</p>
-                    </div>
+                    <div class="quiz-grid" id="preQuizContainer"></div>
+
+                    <div id="preResultBox" class="result-box"></div>
 
                     <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
-                        <button class="btn primary"
-                            onclick="alert('✅ Pre-Test guardado. Ahora revise los módulos.'); switchTab('modulesSection')">Guardar
-                            y continuar →</button>
+                        <button class="btn primary" id="preSubmitBtn">Guardar y continuar →</button>
                     </div>
                 </div>
             </div>
@@ -856,7 +952,7 @@
                                 </div>
                             </div>
                             <div class="preview" id="viewerContainer">
-                                <iframe id="moduleViewer" src="modulo-1/respuestas.html"
+                                <iframe id="moduleViewer" src="modulo-1/presentacion.html"
                                     title="Contenido del módulo"></iframe>
                                 <video id="moduleVideo"
                                     style="display:none; width:100%; height:min(700px, 80vh); background:black;"
@@ -931,6 +1027,13 @@
                     <p style="margin-bottom:16px;">Aquí puede consultar información sobre fármacos, dosis,
                         presentaciones y otros recursos de apoyo clínico.</p>
 
+                    <a href="farmacos/index.html" target="_blank" class="consulta-card"
+                        style="display:block;">
+                        <h3>💊 Herramienta Interactiva de Fármacos</h3>
+                        <p class="muted">Abrir el consultor interactivo de dosis y concentraciones en neonatología
+                        </p>
+                    </a>
+
                     <div class="resource-grid" style="margin-bottom: 24px;">
                         <a href="farmacos/TABLA 2024 CONCENTRACIÓN MÁXIMA RECOMENDADA PARA FÁRMACOS EN INFUSIÓN INTRAVENOSA EN NEONATOLOGÍA (1).pdf"
                             target="_blank" class="resource-card" style="background: var(--consulta-tint);">
@@ -970,14 +1073,12 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="quiz-grid">
-                        <p style="color:var(--muted); font-style:italic;">Las preguntas del cuestionario final se
-                            integrarán aquí.</p>
-                    </div>
+                    <div class="quiz-grid" id="postQuizContainer"></div>
+
+                    <div id="postResultBox" class="result-box"></div>
+
                     <div style="margin-top:24px;">
-                        <button class="btn primary"
-                            onclick="alert('✅ Post-Test enviado. ¡Gracias por participar!'); switchTab('coverSection')">Enviar
-                            respuestas y finalizar ✅</button>
+                        <button class="btn primary" id="postSubmitBtn">Enviar respuestas y finalizar ✅</button>
                     </div>
                 </div>
             </div>
@@ -1035,7 +1136,7 @@
         const btnPdf = document.getElementById('btnShowPdf');
 
         let currentData = {
-            html: 'modulo-1/respuestas.html',
+            html: 'modulo-1/presentacion.html',
             video: 'modulo-1/video-modulo-1-iaas.mp4',
             pdf: 'modulo-1/higiene-manos-control-neonatal.pdf'
         };
@@ -1086,6 +1187,359 @@
             if (bar) bar.style.width = porcentaje + '%';
             if (pct) pct.textContent = porcentaje + '%';
         }
+
+        // ---------- CUESTIONARIO: CONOCIMIENTOS SOBRE PREVENCIÓN DE IAAS ----------
+        // 22 reactivos · correct = índice de la opción correcta (0=a, 1=b, 2=c, 3=d)
+        const QUIZ_QUESTIONS = [
+            {
+                dim: "Dimensión I · Vigilancia epidemiológica y prevención de IAAS",
+                text: "De acuerdo con el PROY-NOM-045-SSA-2026, ¿cuál es la función principal del Comité para la Vigilancia Epidemiológica y Prevención y Control de las Infecciones Asociadas a la Atención de la Salud (COVEPCIAAS)?",
+                options: [
+                    "Sustituir las funciones operativas de las jefaturas de enfermería.",
+                    "Autorizar exclusivamente la adquisición de insumos para control de infecciones.",
+                    "Coordinar las acciones de vigilancia, prevención y control de las IAAS dentro de la institución.",
+                    "Aplicar sanciones administrativas al personal que incumpla las medidas preventivas."
+                ],
+                correct: 2
+            },
+            {
+                dim: "Dimensión I · Vigilancia epidemiológica y prevención de IAAS",
+                text: "Durante la atención de un paciente pediátrico, ¿cuál de los cinco momentos para la higiene de manos establecidos por la Organización Mundial de la Salud protege principalmente al entorno del paciente?",
+                options: [
+                    "Después del contacto con el entorno del paciente.",
+                    "Antes del contacto con el paciente.",
+                    "Antes de realizar un procedimiento aséptico.",
+                    "Después del riesgo de exposición a líquidos corporales."
+                ],
+                correct: 0
+            },
+            {
+                dim: "Dimensión I · Vigilancia epidemiológica y prevención de IAAS",
+                text: "Durante un turno hospitalario, una enfermera manipula el catéter venoso central de un paciente y posteriormente atiende a otro sin realizar higiene de manos. ¿Cuál es el principal mecanismo de transmisión de Staphylococcus aureus resistente a meticilina (SARM)?",
+                options: [
+                    "Transmisión aérea mediante gotas respiratorias.",
+                    "Microaspiración de secreciones respiratorias.",
+                    "Diseminación por el sistema de ventilación hospitalario.",
+                    "Transmisión cruzada a través de las manos del personal de salud."
+                ],
+                correct: 3
+            },
+            {
+                dim: "Dimensión I · Vigilancia epidemiológica y prevención de IAAS",
+                text: "¿Cuál de las siguientes acciones establece el PROY-NOM-045-SSA-2026 para fortalecer la vigilancia epidemiológica y el control de la resistencia a los antimicrobianos (RAM)?",
+                options: [
+                    "Realizar monitoreo microbiológico y mantener actualizado el mapa epidemiológico institucional.",
+                    "Aislar de forma obligatoria a todos los pacientes que ingresan a terapia intensiva.",
+                    "Administrar antibióticos profilácticos en todos los procedimientos invasivos.",
+                    "Suspender la toma de cultivos cuando el paciente no presente fiebre."
+                ],
+                correct: 0
+            },
+            {
+                dim: "Dimensión II · Prevención de Neumonía Asociada a Ventilación Mecánica (NAVM)",
+                text: "Un neonato permanece varios días con ventilación mecánica y desarrolla una neumonía asociada al ventilador. ¿Cuál es el principal mecanismo por el que Pseudomonas aeruginosa presenta mayor resistencia al tratamiento antimicrobiano?",
+                options: [
+                    "Formación de esporas resistentes.",
+                    "Localización exclusiva en los alvéolos pulmonares.",
+                    "Formación de una biopelícula (biofilm) que protege a la bacteria frente a los antimicrobianos.",
+                    "Multiplicación únicamente en ausencia de oxígeno."
+                ],
+                correct: 2
+            },
+            {
+                dim: "Dimensión II · Prevención de Neumonía Asociada a Ventilación Mecánica (NAVM)",
+                text: "¿Cuál es la posición recomendada de la cabecera en pacientes con ventilación mecánica para disminuir el riesgo de neumonía asociada al ventilador?",
+                options: [
+                    "Entre 0° y 10°.",
+                    "Según el confort del paciente.",
+                    "A 45° en todos los pacientes.",
+                    "Entre 15° y 30°."
+                ],
+                correct: 3
+            },
+            {
+                dim: "Dimensión II · Prevención de Neumonía Asociada a Ventilación Mecánica (NAVM)",
+                text: "Durante la aspiración de secreciones en un paciente con ventilación mecánica, ¿qué práctica disminuye el riesgo de desplazar microorganismos hacia el árbol respiratorio inferior?",
+                options: [
+                    "Instilar solución salina antes de cada aspiración.",
+                    "Utilizar un sistema de aspiración cerrado y evitar la instilación rutinaria de solución salina.",
+                    "Realizar aspiración abierta cada treinta minutos.",
+                    "Desconectar el ventilador para introducir una sonda convencional."
+                ],
+                correct: 1
+            },
+            {
+                dim: "Dimensión II · Prevención de Neumonía Asociada a Ventilación Mecánica (NAVM)",
+                text: "¿Cuál es el objetivo principal de realizar higiene oral protocolizada en pacientes con ventilación mecánica?",
+                options: [
+                    "Favorecer la extubación temprana.",
+                    "Disminuir la colonización bacteriana orofaríngea y reducir el riesgo de neumonía asociada al ventilador.",
+                    "Sustituir la aspiración de secreciones.",
+                    "Disminuir el consumo de oxígeno."
+                ],
+                correct: 1
+            },
+            {
+                dim: "Dimensión III · Prevención de Infección del Torrente Sanguíneo asociada a Catéter Venoso Central",
+                text: "Durante la inserción de un catéter venoso central, ¿qué conjunto de medidas corresponde a la técnica de barrera máxima?",
+                options: [
+                    "Higiene de manos, guantes limpios y campo estéril pequeño.",
+                    "Higiene de manos y cubrebocas.",
+                    "Higiene de manos, bata estéril, guantes estériles, preparación antiséptica de la piel y campo estéril amplio.",
+                    "Guantes estériles y antisepsia únicamente en el sitio de punción."
+                ],
+                correct: 2
+            },
+            {
+                dim: "Dimensión III · Prevención de Infección del Torrente Sanguíneo asociada a Catéter Venoso Central",
+                text: "Antes de insertar un catéter venoso central se realiza antisepsia de la piel. ¿Cuál es la finalidad principal de esta intervención?",
+                options: [
+                    "Eliminar permanentemente toda la microbiota residente.",
+                    "Sustituir la técnica aséptica.",
+                    "Favorecer la cicatrización del sitio de inserción.",
+                    "Reducir la carga microbiana de la piel para disminuir el riesgo de infección asociada al catéter."
+                ],
+                correct: 3
+            },
+            {
+                dim: "Dimensión III · Prevención de Infección del Torrente Sanguíneo asociada a Catéter Venoso Central",
+                text: "¿Cuál es el principal mecanismo por el que Staphylococcus epidermidis ocasiona infecciones relacionadas con los catéteres venosos centrales?",
+                options: [
+                    "Adhesión al material plástico del catéter a partir de la flora normal de la piel.",
+                    "Migración retrógrada desde el tracto urinario.",
+                    "Translocación bacteriana intestinal.",
+                    "Contaminación exclusiva durante la preparación de medicamentos."
+                ],
+                correct: 0
+            },
+            {
+                dim: "Dimensión III · Prevención de Infección del Torrente Sanguíneo asociada a Catéter Venoso Central",
+                text: "Antes de administrar un medicamento por un catéter venoso central, ¿qué acción reduce significativamente el riesgo de contaminación del dispositivo?",
+                options: [
+                    "Cubrir el puerto con una gasa estéril.",
+                    "Desinfectar el puerto de inyección con alcohol al 70 % durante 5 a 15 segundos.",
+                    "Cambiar el conector antes de cada administración.",
+                    "Utilizar la misma jeringa para purgar y administrar."
+                ],
+                correct: 1
+            },
+            {
+                dim: "Dimensión IV · Prevención de Infección de Vías Urinarias Asociada a Catéter",
+                text: "¿Por qué se recomienda mantener la bolsa recolectora de orina por debajo del nivel de la vejiga?",
+                options: [
+                    "Facilitar el registro del gasto urinario.",
+                    "Evitar el deterioro de la bolsa.",
+                    "Prevenir el reflujo de orina contaminada y el ascenso retrógrado de microorganismos hacia la vejiga.",
+                    "Mantener presión negativa constante."
+                ],
+                correct: 2
+            },
+            {
+                dim: "Dimensión IV · Prevención de Infección de Vías Urinarias Asociada a Catéter",
+                text: "En un paciente pediátrico masculino portador de sonda urinaria permanente, ¿cuál es el sitio recomendado para fijar el catéter?",
+                options: [
+                    "Región inguinal.",
+                    "Sin fijación.",
+                    "Cara anterior del abdomen.",
+                    "Cara interna del muslo, evitando la tracción excesiva."
+                ],
+                correct: 3
+            },
+            {
+                dim: "Dimensión IV · Prevención de Infección de Vías Urinarias Asociada a Catéter",
+                text: "¿Qué estructura de Escherichia coli favorece principalmente la colonización del tracto urinario?",
+                options: [
+                    "Los pili o fimbrias de adhesión.",
+                    "La cápsula bacteriana.",
+                    "Las enzimas degradadoras de látex.",
+                    "La multiplicación exclusiva en medios alcalinos."
+                ],
+                correct: 0
+            },
+            {
+                dim: "Dimensión IV · Prevención de Infección de Vías Urinarias Asociada a Catéter",
+                text: "¿En qué situación está justificado romper el circuito cerrado del sistema de drenaje urinario?",
+                options: [
+                    "Para obtener muestras rutinarias.",
+                    "Prácticamente en ninguna circunstancia; las muestras deben obtenerse mediante el puerto diseñado para ello utilizando técnica aséptica.",
+                    "Cada vez que se vacía la bolsa.",
+                    "Al finalizar cada turno."
+                ],
+                correct: 1
+            },
+            {
+                dim: "Dimensión V · Prevención de Infección del Sitio Quirúrgico",
+                text: "Un paciente ingresará a cirugía programada. ¿Cuál es el momento recomendado para administrar la profilaxis antimicrobiana perioperatoria?",
+                options: [
+                    "Al finalizar la cirugía.",
+                    "Veinticuatro horas antes.",
+                    "Dentro de los 60 minutos previos a la incisión quirúrgica.",
+                    "Solo cuando exista contaminación visible."
+                ],
+                correct: 2
+            },
+            {
+                dim: "Dimensión V · Prevención de Infección del Sitio Quirúrgico",
+                text: "¿Cómo se clasifica una cirugía en la que se penetra el tracto respiratorio, digestivo o urinario bajo condiciones controladas y sin contaminación inusual?",
+                options: [
+                    "Herida limpia.",
+                    "Herida contaminada.",
+                    "Herida sucia.",
+                    "Herida limpia-contaminada."
+                ],
+                correct: 3
+            },
+            {
+                dim: "Dimensión V · Prevención de Infección del Sitio Quirúrgico",
+                text: "¿Cuál es la recomendación vigente para la remoción del vello en el sitio quirúrgico cuando esta sea necesaria?",
+                options: [
+                    "Utilizar una recortadora eléctrica inmediatamente antes del procedimiento quirúrgico.",
+                    "Rasurar con navaja la noche previa.",
+                    "Utilizar crema depilatoria de forma rutinaria.",
+                    "Remover el vello en todos los pacientes independientemente del procedimiento."
+                ],
+                correct: 0
+            },
+            {
+                dim: "Dimensión V · Prevención de Infección del Sitio Quirúrgico",
+                text: "¿Qué característica de Streptococcus pyogenes favorece su capacidad para producir infecciones del sitio quirúrgico con rápida diseminación?",
+                options: [
+                    "Resistencia absoluta a todos los antisépticos.",
+                    "Producción de enzimas y factores de virulencia que facilitan la invasión y destrucción de tejidos.",
+                    "Multiplicación exclusiva en tejido necrótico.",
+                    "Mutación inmediata al contacto con el oxígeno."
+                ],
+                correct: 1
+            },
+            {
+                dim: "Dimensión VI · Educación digital asincrónica y Entornos Virtuales de Aprendizaje",
+                text: "¿Cuál es la principal ventaja de una estrategia de educación digital asincrónica para la capacitación del personal de enfermería en la prevención de las IAAS?",
+                options: [
+                    "Permite que todo el personal reciba la capacitación únicamente en horario laboral.",
+                    "Favorece el acceso flexible al contenido, permitiendo que cada participante estudie de acuerdo con su disponibilidad sin afectar la atención del paciente.",
+                    "Sustituye la supervisión clínica durante la práctica asistencial.",
+                    "Elimina la necesidad de actualizar periódicamente los contenidos educativos."
+                ],
+                correct: 1
+            },
+            {
+                dim: "Dimensión VI · Educación digital asincrónica y Entornos Virtuales de Aprendizaje",
+                text: "Durante una intervención educativa digital para la prevención de IAAS, ¿qué característica de un Entorno Virtual de Aprendizaje (EVA) favorece principalmente el aprendizaje significativo del personal de enfermería?",
+                options: [
+                    "Presentar exclusivamente documentos en formato PDF para su lectura.",
+                    "Limitar el acceso a un único dispositivo institucional.",
+                    "Integrar módulos interactivos, recursos multimedia y evaluaciones que permitan al participante avanzar de forma autónoma y reforzar sus conocimientos.",
+                    "Reemplazar completamente la práctica clínica supervisada."
+                ],
+                correct: 2
+            }
+        ];
+
+        const LETTERS = ['a', 'b', 'c', 'd'];
+
+        function renderQuiz(containerId, prefix) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            let lastDim = null;
+
+            QUIZ_QUESTIONS.forEach((q, i) => {
+                if (q.dim !== lastDim) {
+                    const header = document.createElement('div');
+                    header.className = 'dimension-header';
+                    header.textContent = q.dim;
+                    container.appendChild(header);
+                    lastDim = q.dim;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'question';
+
+                const title = document.createElement('p');
+                title.className = 'q-title';
+                title.textContent = (i + 1) + '. ' + q.text;
+                card.appendChild(title);
+
+                const optionsWrap = document.createElement('div');
+                optionsWrap.className = 'q-options';
+
+                q.options.forEach((optionText, oi) => {
+                    const label = document.createElement('label');
+                    label.className = 'q-option';
+
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = prefix + '_q' + i;
+                    input.value = oi;
+
+                    const span = document.createElement('span');
+                    span.textContent = LETTERS[oi] + ') ' + optionText;
+
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    optionsWrap.appendChild(label);
+                });
+
+                card.appendChild(optionsWrap);
+                container.appendChild(card);
+            });
+        }
+
+        function computeScore(prefix) {
+            let answered = 0;
+            let correct = 0;
+            QUIZ_QUESTIONS.forEach((q, i) => {
+                const selected = document.querySelector('input[name="' + prefix + '_q' + i + '"]:checked');
+                if (selected) {
+                    answered++;
+                    if (parseInt(selected.value, 10) === q.correct) correct++;
+                }
+            });
+            return { answered, correct, total: QUIZ_QUESTIONS.length };
+        }
+
+        function nivelDeConocimiento(correct) {
+            if (correct >= 18) return { nivel: 'Alto', clase: 'level-alto' };
+            if (correct >= 13) return { nivel: 'Medio', clase: 'level-medio' };
+            return { nivel: 'Bajo', clase: 'level-bajo' };
+        }
+
+        function mostrarResultado(prefix, resultBoxId) {
+            const { answered, correct, total } = computeScore(prefix);
+
+            if (answered < total) {
+                alert('Por favor responda todas las preguntas antes de continuar. Le faltan ' + (total - answered) + ' reactivo(s) por contestar.');
+                return false;
+            }
+
+            const pct = Math.round((correct / total) * 100);
+            const { nivel, clase } = nivelDeConocimiento(correct);
+            const box = document.getElementById(resultBoxId);
+            box.className = 'result-box ' + clase;
+            box.innerHTML = '<h3>Resultado: ' + correct + ' / ' + total + ' aciertos (' + pct + '%)</h3>' +
+                '<p>Nivel de conocimiento: <strong>' + nivel + '</strong></p>' +
+                '<p class="muted" style="margin-top:6px; font-size:0.85rem;">Escala: 18–22 aciertos = Alto · 13–17 = Medio · 0–12 = Bajo.</p>';
+            box.style.display = 'block';
+            return true;
+        }
+
+        renderQuiz('preQuizContainer', 'pre');
+        renderQuiz('postQuizContainer', 'post');
+
+        document.getElementById('preSubmitBtn').addEventListener('click', () => {
+            const ok = mostrarResultado('pre', 'preResultBox');
+            if (ok) {
+                document.getElementById('preResultBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => switchTab('modulesSection'), 900);
+            }
+        });
+
+        document.getElementById('postSubmitBtn').addEventListener('click', () => {
+            const ok = mostrarResultado('post', 'postResultBox');
+            if (ok) {
+                document.getElementById('postResultBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
     </script>
 </body>
 
